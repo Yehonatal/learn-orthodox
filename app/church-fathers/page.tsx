@@ -6,7 +6,6 @@ import {
   BookOpen, 
   Search, 
   Globe, 
-  Sparkles, 
   Send, 
   MessageSquare, 
   HelpCircle, 
@@ -22,6 +21,30 @@ import {
 import { toast } from 'sonner';
 import { getChurchFathers } from '@/lib/lessons/service';
 import { ChurchFather } from '@/types/lessons';
+
+const CrossIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11 2h2v6h6v2h-6v12h-2V10H5V8h6V2z" />
+  </svg>
+);
+
+const ExpandIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 3h6v6" />
+    <path d="M9 21H3v-6" />
+    <path d="M21 3l-7 7" />
+    <path d="M3 21l7-7" />
+  </svg>
+);
+
+const ShrinkIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 14h6v6" />
+    <path d="M20 10h-6V4" />
+    <path d="M14 10l7-7" />
+    <path d="M10 14l-7 7" />
+  </svg>
+);
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -93,6 +116,13 @@ export default function ChurchFathersPage() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFather, setSelectedFather] = useState<ChurchFather | null>(null);
+  const [viewingPdf, setViewingPdf] = useState(false);
+  const [pdfExpanded, setPdfExpanded] = useState(false);
+
+  useEffect(() => {
+    setViewingPdf(false);
+    setPdfExpanded(false);
+  }, [selectedFather]);
 
   // AI Chat state
   const [showAIChat, setShowAIChat] = useState(false);
@@ -322,7 +352,7 @@ export default function ChurchFathersPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch flex-grow">
             
             {/* Column 1: Navigation Sidebar (Span 4) */}
-            <aside className="lg:col-span-4 flex flex-col space-y-4">
+            <aside className={`lg:col-span-4 flex flex-col space-y-4 transition-all duration-300 ${viewingPdf && pdfExpanded ? 'lg:hidden hidden' : ''}`}>
               
               {/* Search Box */}
               <div className="relative border border-accent-gold/25 bg-bg-parchment p-3 rounded-none soft-shadow">
@@ -382,72 +412,138 @@ export default function ChurchFathersPage() {
             </aside>
 
             {/* Column 2: Selected Father Card (Span 8) */}
-            <section className="lg:col-span-8 flex flex-col">
+            <section className={`flex flex-col transition-all duration-300 ${viewingPdf && pdfExpanded ? 'lg:col-span-12' : 'lg:col-span-8'}`}>
               {selectedFather ? (
-                <div className="bg-bg-parchment border border-accent-gold/25 p-6 md:p-8 flex flex-col flex-grow relative rounded-none soft-shadow overflow-hidden min-h-[50vh] lg:max-h-[72vh]">
-                  <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
-                  <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
-                  <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
-                  <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
-                  
-                  {/* Decorative internal frame */}
-                  <div className="absolute inset-2 border border-accent-gold/10 pointer-events-none rounded-none" />
+                viewingPdf ? (
+                  <div className="bg-bg-parchment border border-accent-gold/25 p-4 flex flex-col flex-grow relative rounded-none soft-shadow overflow-hidden h-[78vh] lg:h-[84vh]">
+                    <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
+                    <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
+                    <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
+                    <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
+                    
+                    {/* Decorative internal frame */}
+                    <div className="absolute inset-2 border border-accent-gold/10 pointer-events-none rounded-none" />
 
-                  {/* Header */}
-                  <div className="border-b border-accent-gold/20 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative">
-                    <div>
-                      <span className="ui-label text-[9px] font-bold text-accent-crimson tracking-widest block mb-1">
-                        {selectedFather.category === 'Apostolic Fathers' ? t.categoryApostolic : t.categoryEcumenical}
-                      </span>
-                      <h2 className="font-serif font-extrabold text-base md:text-lg text-accent-indigo leading-tight">
-                        {selectedFather.name}
-                      </h2>
+                    {/* PDF Header Controls */}
+                    <div className="border-b border-accent-gold/20 pb-3 mb-4 flex items-center justify-between relative z-10">
+                      <div>
+                        <span className="ui-label text-[8px] font-bold text-accent-crimson tracking-widest block">
+                          {lang === 'am' ? 'የቅዱሳት አበው ድርሳናት' : 'PATRISTIC MANUSCRIPT'}
+                        </span>
+                        <h3 className="font-serif font-extrabold text-sm text-accent-indigo">
+                          {selectedFather.name}
+                        </h3>
+                      </div>
+                      <div className="flex gap-2 relative z-20">
+                        <button
+                          onClick={() => setPdfExpanded(!pdfExpanded)}
+                          className="flex items-center gap-1.5 px-2.5 py-1 border border-accent-gold/20 hover:border-accent-gold text-[9px] ui-label font-bold uppercase transition-all bg-bg-alabaster/40 hover:bg-bg-parchment cursor-pointer"
+                          title={pdfExpanded ? "Split View" : "Focus Mode"}
+                        >
+                          {pdfExpanded ? (
+                            <>
+                              <ShrinkIcon className="h-3 w-3" />
+                              <span className="hidden sm:inline">{lang === 'am' ? 'ባለ ሁለት ክፍል' : 'Split'}</span>
+                            </>
+                          ) : (
+                            <>
+                              <ExpandIcon className="h-3 w-3" />
+                              <span className="hidden sm:inline">{lang === 'am' ? 'ሙሉ ገጽ' : 'Focus'}</span>
+                            </>
+                          )}
+                        </button>
+                        <a
+                          href={selectedFather.pdf_link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 px-2.5 py-1 border border-accent-gold/20 hover:border-accent-gold text-[9px] ui-label font-bold uppercase transition-all bg-bg-alabaster/40 hover:bg-bg-parchment cursor-pointer"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          <span>{lang === 'am' ? 'በአዲስ ታብ' : 'New Tab'}</span>
+                        </a>
+                        <button
+                          onClick={() => setViewingPdf(false)}
+                          className="flex items-center gap-1.5 px-2.5 py-1 bg-accent-crimson hover:bg-accent-crimson/90 text-white text-[9px] ui-label font-bold uppercase transition-all cursor-pointer"
+                        >
+                          <X className="h-3 w-3" />
+                          <span>{lang === 'am' ? 'ዝጋ' : 'Close'}</span>
+                        </button>
+                      </div>
                     </div>
 
-                    <button
-                      onClick={() => setShowAIChat(true)}
-                      className="flex items-center gap-2 px-3.5 py-1.5 border border-accent-gold/25 hover:border-accent-gold bg-bg-alabaster/40 hover:bg-bg-parchment text-[9px] ui-label font-bold uppercase transition-all duration-300 cursor-pointer rounded-none soft-shadow shrink-0 shadow-[1px_1px_0_0_rgba(140,128,112,0.15)]"
-                    >
-                      <Sparkles className="h-3.5 w-3.5 text-accent-gold" />
-                      <span>{t.askCompanionBtn}</span>
-                    </button>
-                  </div>
-
-                  {/* Description / Information */}
-                  <div className="flex-grow overflow-y-auto pr-2 relative z-10 font-serif text-xs md:text-sm leading-relaxed text-stone-700 space-y-4 max-h-[45vh]">
-                    <div className="p-4 bg-bg-alabaster/40 border border-accent-gold/15 rounded-none relative">
-                      <p className="italic text-text-ink leading-relaxed">
-                        {lang === 'am' 
-                          ? `ቅዱስ ${selectedFather.name} በኦርቶዶክስ ተዋሕዶ ነገረ መለኮት፣ ታሪክና ትውፊት ውስጥ ትልቅ ቦታ ካላቸው ቅዱሳን አባቶች አንዱ ነው። የእነርሱን ቅዱሳት መጻሕፍትና ትምህርቶች ማንበብ በመንፈሳዊ ጉዞና በእምነት ዕውቀት ላይ ከፍተኛ እገዛ ያደርግዎታል።`
-                          : `St. ${selectedFather.name} is a vital pillar in EOTC patristic theology and historical tradition. Exploring their writings fosters a deeper understanding of the early Church council formulations and Christology.`
-                        }
-                      </p>
-                    </div>
-
-                    <div className="pt-2">
-                      <span className="block text-[10px] ui-label font-bold text-accent-crimson tracking-wider mb-2">
-                        {lang === 'am' ? 'የድርሳን ሰነድ' : 'DOCUMENT SOURCE'}
-                      </span>
-                      <p className="text-xs text-stone-550 break-all leading-normal font-mono bg-bg-alabaster/25 p-2 border border-accent-gold/10">
-                        {selectedFather.pdf_link}
-                      </p>
+                    {/* Custom Integrated Iframe */}
+                    <div className="flex-grow w-full h-full relative z-10 bg-white border border-accent-gold/15 shadow-inner overflow-hidden">
+                      <iframe 
+                        src={selectedFather.pdf_link} 
+                        className="w-full h-full border-0" 
+                        title={selectedFather.name}
+                      />
                     </div>
                   </div>
+                ) : (
+                  <div className="bg-bg-parchment border border-accent-gold/25 p-6 md:p-8 flex flex-col flex-grow relative rounded-none soft-shadow overflow-hidden min-h-[50vh] lg:max-h-[72vh]">
+                    <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
+                    <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
+                    <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
+                    <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
+                    
+                    {/* Decorative internal frame */}
+                    <div className="absolute inset-2 border border-accent-gold/10 pointer-events-none rounded-none" />
 
-                  {/* Action Button to Open PDF */}
-                  <div className="pt-6 border-t border-accent-gold/20 mt-4 relative z-20">
-                    <a
-                      href={selectedFather.pdf_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-3 bg-accent-gold hover:bg-accent-gold/90 text-white text-[10px] ui-label font-bold tracking-wider uppercase transition-all shadow-none flex items-center justify-center gap-2 rounded-none cursor-pointer"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      <span>{t.openTextBtn}</span>
-                    </a>
+                    {/* Header */}
+                    <div className="border-b border-accent-gold/20 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative">
+                      <div>
+                        <span className="ui-label text-[9px] font-bold text-accent-crimson tracking-widest block mb-1">
+                          {selectedFather.category === 'Apostolic Fathers' ? t.categoryApostolic : t.categoryEcumenical}
+                        </span>
+                        <h2 className="font-serif font-extrabold text-base md:text-lg text-accent-indigo leading-tight">
+                          {selectedFather.name}
+                        </h2>
+                      </div>
+
+                      <button
+                        onClick={() => setShowAIChat(true)}
+                        className="flex items-center gap-2 px-3.5 py-1.5 border border-accent-gold/25 hover:border-accent-gold bg-bg-alabaster/40 hover:bg-bg-parchment text-[9px] ui-label font-bold uppercase transition-all duration-300 cursor-pointer rounded-none soft-shadow shrink-0 shadow-[1px_1px_0_0_rgba(140,128,112,0.15)]"
+                      >
+                        <CrossIcon className="h-3.5 w-3.5 text-accent-gold" />
+                        <span>{t.askCompanionBtn}</span>
+                      </button>
+                    </div>
+
+                    {/* Description / Information */}
+                    <div className="flex-grow overflow-y-auto pr-2 relative z-10 font-serif text-xs md:text-sm leading-relaxed text-stone-700 space-y-4 max-h-[45vh]">
+                      <div className="p-4 bg-bg-alabaster/40 border border-accent-gold/15 rounded-none relative">
+                        <p className="italic text-text-ink leading-relaxed">
+                          {lang === 'am' 
+                            ? `ቅዱስ ${selectedFather.name} በኦርቶዶክስ ተዋሕዶ ነገረ መለኮት፣ ታሪክና ትውፊት ውስጥ ትልቅ ቦታ ካላቸው ቅዱሳን አባቶች አንዱ ነው። የእነርሱን ቅዱሳት መጻሕፍትና ትምህርቶች ማንበብ በመንፈሳዊ ጉዞና በእምነት ዕውቀት ላይ ከፍተኛ እገዛ ያደርግዎታል።`
+                            : `St. ${selectedFather.name} is a vital pillar in EOTC patristic theology and historical tradition. Exploring their writings fosters a deeper understanding of the early Church council formulations and Christology.`
+                          }
+                        </p>
+                      </div>
+
+                      <div className="pt-2">
+                        <span className="block text-[10px] ui-label font-bold text-accent-crimson tracking-wider mb-2">
+                          {lang === 'am' ? 'የድርሳን ሰነድ' : 'DOCUMENT SOURCE'}
+                        </span>
+                        <p className="text-xs text-stone-550 break-all leading-normal font-mono bg-bg-alabaster/25 p-2 border border-accent-gold/10">
+                          {selectedFather.pdf_link}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Action Button to Open Integrated PDF View */}
+                    <div className="pt-6 border-t border-accent-gold/20 mt-4 relative z-20">
+                      <button
+                        onClick={() => setViewingPdf(true)}
+                        className="w-full py-3 bg-accent-gold hover:bg-accent-gold/90 text-white text-[10px] ui-label font-bold tracking-wider uppercase transition-all shadow-none flex items-center justify-center gap-2 rounded-none cursor-pointer"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        <span>{t.openTextBtn}</span>
+                      </button>
+                    </div>
+
                   </div>
-
-                </div>
+                )
               ) : (
                 <div className="flex-grow flex flex-col items-center justify-center border border-accent-gold/25 bg-bg-alabaster/40 p-8 rounded-none soft-shadow">
                   <BookOpen className="h-12 w-12 text-accent-gold/30 mb-3" />
@@ -481,7 +577,7 @@ export default function ChurchFathersPage() {
               <div className="flex justify-between items-center mb-5 pb-3 border-b border-accent-gold/15">
                 <div className="flex items-center space-x-2.5">
                   <div className="bg-accent-gold/15 p-1.5 rounded-none border border-accent-gold/20 shadow-none">
-                    <Sparkles className="h-4 w-4 text-accent-gold animate-pulse" />
+                    <CrossIcon className="h-4 w-4 text-accent-gold animate-pulse" />
                   </div>
                   <div>
                     <h3 className="text-xs font-serif font-black text-text-ink uppercase tracking-wider">

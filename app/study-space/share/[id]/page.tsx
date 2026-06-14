@@ -1,7 +1,13 @@
 import { getStudyNoteById } from "@/lib/notes/service";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Heart, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
+
+const CrossIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11 2h2v6h6v2h-6v12h-2V10H5V8h6V2z" />
+  </svg>
+);
 
 interface Props {
     params: Promise<{ id: string }>;
@@ -103,7 +109,7 @@ export default async function SharedNotePage({ params }: Props) {
                 {/* AI Commentary Layers */}
                 <div className="space-y-6 mb-8">
                     <div className="flex items-center gap-1.5 font-serif font-extrabold text-accent-gold text-xs tracking-wider uppercase border-b border-accent-gold/20 pb-1">
-                        <Heart className="h-3.5 w-3.5" />
+                        <CrossIcon className="h-3.5 w-3.5" />
                         AI Patristic Commentary
                     </div>
 

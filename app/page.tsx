@@ -9,7 +9,6 @@ import {
     HelpCircle,
     Globe,
     ChevronRight,
-    Heart,
     BookMarked,
     Play,
 } from "lucide-react";

@@ -5,13 +5,18 @@ import type { LiturgyUnit } from "@/types/liturgy";
 import { toast } from "sonner";
 import { saveStudyNote } from "@/lib/notes/service";
 import {
-    Heart,
     Clipboard,
     Bookmark,
     X,
     Send,
     AlertTriangle,
 } from "lucide-react";
+
+const CrossIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11 2h2v6h6v2h-6v12h-2V10H5V8h6V2z" />
+  </svg>
+);
 
 const PROVIDERS = [
     {
@@ -386,7 +391,7 @@ export default function AIExplainer({
                 <div className="flex justify-between items-center mb-5 pb-3 border-b border-accent-gold/15">
                     <div>
                         <span className="flex items-center gap-1.5 ui-label font-bold text-accent-gold text-xs tracking-wider uppercase">
-                            <Heart className="h-3.5 w-3.5 text-accent-rose fill-accent-rose/20" />
+                            <CrossIcon className="h-3.5 w-3.5 text-accent-gold" />
                             {lang === "am" ? "የነገረ መለኮት ማብራሪያ" : "Theological Explainer"}
                         </span>
                         <p className="text-[9px] text-stone-400 mt-0.5 uppercase tracking-wider font-sans">
@@ -509,7 +514,7 @@ export default function AIExplainer({
                 <div className="flex-grow overflow-y-auto pr-1 space-y-4 mb-4 mt-2 scrollbar-none max-h-[60vh]">
                     {messages.length === 0 && !loading && (
                         <div className="h-full flex flex-col items-center justify-center text-center py-10">
-                            <Heart className="h-8 w-8 text-accent-gold/30 mb-3" />
+                            <CrossIcon className="h-8 w-8 text-accent-gold/25 mb-3" />
                             <p className="text-[11px] text-stone-550 font-light font-serif max-w-xs leading-relaxed">
                                 {lang === "am"
                                     ? 'ስለ ጥቅሱ ዝርዝር ማብራሪያ ለማግኘት "ማብራሪያ ጠይቅ" የሚለውን ይጫኑ።'

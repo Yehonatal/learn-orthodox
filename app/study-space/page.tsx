@@ -4,7 +4,6 @@ import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
-    Heart,
     BookOpen,
     Trash2,
     Edit3,
@@ -12,7 +11,6 @@ import {
     X,
     Search,
     Save,
-    Sparkles,
     BookMarked,
     ChevronDown,
     ChevronUp,
@@ -20,6 +18,12 @@ import {
     Loader2,
     Check
 } from "lucide-react";
+
+const CrossIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11 2h2v6h6v2h-6v12h-2V10H5V8h6V2z" />
+  </svg>
+);
 import { toast } from "sonner";
 import {
     getStudyNotes,
@@ -554,7 +558,7 @@ function StudySpaceContent() {
                                                         className="w-full flex items-center justify-between py-2 px-3 bg-bg-alabaster/80 border border-accent-gold/20 hover:border-accent-gold/40 rounded-none text-[8.5px] font-serif font-bold text-accent-gold uppercase tracking-widest transition-all cursor-pointer"
                                                     >
                                                         <span className="flex items-center gap-1.5">
-                                                            <Sparkles className="h-3.5 w-3.5" />
+                                                            <CrossIcon className="h-3.5 w-3.5" />
                                                             {t.aiCommentaryLabel}
                                                         </span>
                                                         {isAiExpanded ? (

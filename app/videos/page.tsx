@@ -9,7 +9,6 @@ import {
   ArrowLeft, 
   Search, 
   Globe, 
-  Sparkles, 
   Plus,
   Loader2,
   Share2,

@@ -6,7 +6,6 @@ import {
   BookOpen, 
   Search, 
   Globe, 
-  Sparkles, 
   Send, 
   MessageSquare, 
   HelpCircle, 
@@ -21,6 +20,12 @@ import {
 import { toast } from 'sonner';
 import { getOrthodoxLessons } from '@/lib/lessons/service';
 import { OrthodoxLesson } from '@/types/lessons';
+
+const CrossIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11 2h2v6h6v2h-6v12h-2V10H5V8h6V2z" />
+  </svg>
+);
 
 const GEEZ_NUMERALS = ["፩", "፪", "፫", "፬", "፭", "፮", "፯", "፰", "፱", "፲", "፲፩", "፲፪", "፲፫", "፲፬"];
 
@@ -394,7 +399,7 @@ export default function Orthodox101Page() {
                       onClick={() => setShowAIChat(true)}
                       className="flex items-center gap-2 px-3.5 py-1.5 border border-accent-gold/25 hover:border-accent-gold bg-bg-alabaster/40 hover:bg-bg-parchment text-[9px] ui-label font-bold uppercase transition-all duration-300 cursor-pointer rounded-none soft-shadow shrink-0 shadow-[1px_1px_0_0_rgba(140,128,112,0.15)]"
                     >
-                      <Sparkles className="h-3.5 w-3.5 text-accent-gold" />
+                      <CrossIcon className="h-3.5 w-3.5 text-accent-gold" />
                       <span>{t.askCompanionBtn}</span>
                     </button>
                   </div>
@@ -438,7 +443,7 @@ export default function Orthodox101Page() {
               <div className="flex justify-between items-center mb-5 pb-3 border-b border-accent-gold/15">
                 <div className="flex items-center space-x-2.5">
                   <div className="bg-accent-gold/15 p-1.5 rounded-none border border-accent-gold/20 shadow-none">
-                    <Sparkles className="h-4 w-4 text-accent-gold animate-pulse" />
+                    <CrossIcon className="h-4 w-4 text-accent-gold animate-pulse" />
                   </div>
                   <div>
                     <h3 className="text-xs font-serif font-black text-text-ink uppercase tracking-wider">
