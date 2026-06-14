@@ -1,26 +1,66 @@
 @import "tailwindcss";
+@import "aos/dist/aos.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-ethiopic: var(--font-noto-serif-ethiopic), serif;
+  --font-serif: var(--font-cormorant), var(--font-noto-serif-ethiopic), Georgia, serif;
+  --font-sans: var(--font-inter), 'Satoshi', 'Inter', sans-serif;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bg-parchment: #FAF6F0;
+  --color-bg-alabaster: #F3ECE3;
+  --color-text-ink: #1C1F26;
+  --color-accent-gold: #C59246;
+  --color-accent-crimson: #931A1C;
+  --color-accent-blue: #1A3B5C;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-parchment);
+  color: var(--color-text-ink);
+  min-height: 100vh;
+}
+
+/* Custom scrollbars matching the vellum/editorial parchment feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-parchment);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-alabaster);
+  border: 1px solid var(--color-accent-gold) / 0.1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-gold) / 0.3;
+}
+
+/* Noto Serif Ethiopic font helpers */
+.Ethiopic-font {
+  font-family: var(--font-noto-serif-ethiopic), serif;
+}
+
+/* Sonner Toast custom minimal styling overrides */
+.sonner-toast-custom {
+  background-color: var(--color-bg-parchment) !important;
+  color: var(--color-text-ink) !important;
+  border: 0.5px solid rgba(197, 146, 70, 0.3) !important; /* accent-gold/30 */
+  border-left: 3px solid var(--color-accent-gold) !important;
+  border-radius: 8px !important;
+  font-family: var(--font-sans) !important;
+}
+
+.sonner-toast-custom-blue {
+  background-color: var(--color-bg-parchment) !important;
+  color: var(--color-text-ink) !important;
+  border: 0.5px solid rgba(197, 146, 70, 0.3) !important; /* accent-gold/30 */
+  border-left: 3px solid var(--color-accent-blue) !important;
+  border-radius: 8px !important;
+  font-family: var(--font-sans) !important;
 }

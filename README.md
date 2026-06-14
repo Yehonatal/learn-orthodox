@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learn Orthodox (Tewahedo Education Platform)
 
-## Getting Started
+<div align="center">
+  <img src="public/glasswindow.png" alt="Learn Orthodox Logo" width="160" style="margin-bottom: 20px; filter: drop-shadow(0px 8px 16px rgba(0,0,0,0.1));" />
+  
+  <h3>Ancient Wisdom. Sacred Tradition. Modern AI Assistance.</h3>
+  <p>
+    An interactive, trilingual educational portal dedicated to preserving and exploring the rich liturgical heritage, catechism, patristics, and sacred chanting of the Ethiopian Orthodox Tewahedo Church.
+  </p>
 
-First, run the development server:
+ 
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Learn Orthodox** is a modern Web application designed for diaspora communities, theological students, and curious learners worldwide. It serves as an accessible bridge to the ancient Ge'ez and Amharic liturgical traditions by pairing authentic texts with side-by-side English translations and an interactive AI commentary layer.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Core Features
 
-## Learn More
+1. **Trilingual Parallel Reader**
+   * Experience the **Divine Liturgy of St. Dioscoros** in its original **Ge'ez (ግዕዝ)**, **Amharic (አማርኛ)** translation, and **English** translation.
+   * Customize view preferences (display all languages in parallel, or focus only on specific ones).
+   * Visual role indicators distinguishing parts spoken by the Priest, Assistant Priest, Deacon, Congregation, Cantor, and Rubrics.
 
-To learn more about Next.js, take a look at the following resources:
+2. **AI-Powered Theological Explainer**
+   * Click any liturgical verse to consult a real-time, multi-provider AI commentary layer.
+   * Delivers structured, objective, and reverent breakdowns containing **Theological Core**, **Liturgical Context**, and **Symbolism**.
+   * Supports Google Gemini, OpenAI GPT, and Anthropic Claude out-of-the-box.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Hybrid Online/Offline Architecture**
+   * Uses **Supabase** as its primary cloud data store.
+   * Automatically falls back to a local filesystem JSON database (`content/liturgy/`) if network connectivity is interrupted or Supabase is unconfigured, ensuring 100% uptime.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Semantic Search Readiness**
+   * Features a pre-configured `pgvector` database schema and similarity-search SQL helper function, enabling future vector-based semantic retrieval.
 
-## Deploy on Vercel
+---
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions are welcome! Please follow these guidelines:
+1. Fork the repository.
+2. Create a branch named `feature/your-feature-name`.
+3. Submit a Pull Request detailing the changes and benefits.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
