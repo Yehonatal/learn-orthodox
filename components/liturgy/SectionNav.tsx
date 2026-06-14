@@ -20,6 +20,7 @@ export default function SectionNav({ sections, activeSlug, lang = 'en' }: Sectio
             <Link
               key={section.id}
               href={`?section=${section.slug}&lang=${lang}`}
+              prefetch={false}
               className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-350 cursor-pointer active:scale-95 border ${
                 isActive
                   ? 'bg-accent-gold/15 text-accent-gold border-accent-gold shadow-sm font-bold'

@@ -123,12 +123,13 @@ export default async function LiturgyPage({ params, searchParams }: PageProps) {
   try {
     const supabase = createClient();
 
-    // 1. Fetch Liturgy
+    // 1. Fetch Liturgy and Sections in a single query
     const { data: liturgyDb } = await supabase
       .from('liturgies')
-      .select('*')
+      .select('*, liturgy_sections(*)')
       .eq('slug', liturgyId)
-      .single();
+      .order('order_index', { referencedTable: 'liturgy_sections', ascending: true })
+      .single() as any;
 
     if (liturgyDb) {
       liturgy = {
@@ -141,35 +142,33 @@ export default async function LiturgyPage({ params, searchParams }: PageProps) {
         saint: liturgyDb.saint
       };
 
-      // 2. Fetch Sections
-      const { data: sectionsDb } = await supabase
-        .from('liturgy_sections')
-        .select('*')
-        .eq('liturgy_id', liturgyDb.id)
-        .order('order_index');
+      const sectionsDb = liturgyDb.liturgy_sections || [];
+      if (sectionsDb.length > 0) {
+        // Find the active section from sectionsDb
+        const activeSectionDb = sectionsDb.find((s: any) => s.slug === sectionQuery) || sectionsDb[0];
 
-      if (sectionsDb && sectionsDb.length > 0) {
-        // 3. Fetch Units for all sections
+        // 2. Fetch units ONLY for the active section
+        const { data: unitsDb } = await supabase
+          .from('liturgy_units')
+          .select('*')
+          .eq('section_id', activeSectionDb.id)
+          .order('order_index');
+
+        const activeUnits: LiturgyUnit[] = (unitsDb || []).map(u => ({
+          id: u.id,
+          sectionId: u.section_id,
+          orderIndex: u.order_index,
+          sourcePage: u.source_page,
+          role: u.role,
+          textGez: u.text_gez,
+          textAm: u.text_am,
+          textEn: u.text_en,
+          isResponse: u.is_response,
+          notes: u.notes
+        }));
+
         for (const sec of sectionsDb) {
-          const { data: unitsDb } = await supabase
-            .from('liturgy_units')
-            .select('*')
-            .eq('section_id', sec.id)
-            .order('order_index');
-
-          const units: LiturgyUnit[] = (unitsDb || []).map(u => ({
-            id: u.id,
-            sectionId: u.section_id,
-            orderIndex: u.order_index,
-            sourcePage: u.source_page,
-            role: u.role,
-            textGez: u.text_gez,
-            textAm: u.text_am,
-            textEn: u.text_en,
-            isResponse: u.is_response,
-            notes: u.notes
-          }));
-
+          const isCurrentActive = sec.id === activeSectionDb.id;
           sections.push({
             id: sec.id,
             slug: sec.slug,
@@ -177,7 +176,7 @@ export default async function LiturgyPage({ params, searchParams }: PageProps) {
             nameEn: sec.name_en,
             nameAm: sec.name_am,
             nameGez: sec.name_gez,
-            units
+            units: isCurrentActive ? activeUnits : []
           });
         }
         loadedFromDb = true;

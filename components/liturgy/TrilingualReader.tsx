@@ -3,8 +3,17 @@
 import { useState } from 'react';
 import type { LiturgyUnit } from '@/types/liturgy';
 import ScriptureUnit from './ScriptureUnit';
-import AIExplainer from './AIExplainer';
+import dynamic from 'next/dynamic';
 import { toast } from 'sonner';
+
+const AIExplainer = dynamic(() => import('./AIExplainer'), {
+  ssr: false,
+  loading: () => (
+    <div className="fixed bottom-0 left-0 right-0 bg-white/85 backdrop-blur-xl border-t border-accent-gold/35 p-6 h-[40vh] flex flex-col items-center justify-center z-40 rounded-t-2xl">
+      <div className="animate-spin rounded-full h-8 w-8 border-2 border-accent-gold border-t-transparent"></div>
+    </div>
+  )
+});
 
 type LangPref = 'all' | 'en' | 'am' | 'gez';
 
