@@ -247,9 +247,80 @@ async function seed() {
   }
 
   console.log(`Seeded ${seededCount} liturgy units successfully!`);
+
+  // Seed video lessons
+  await seedVideos();
+}
+
+async function seedVideos() {
+  console.log("Seeding Video Lessons...");
+  const videosPath = path.join(process.cwd(), "content/videos/localVideoData.js");
+  if (!fs.existsSync(videosPath)) {
+    console.warn("localVideoData.js not found at " + videosPath);
+    return;
+  }
+  const videosContent = fs.readFileSync(videosPath, "utf-8");
+  const jsonMatch = videosContent.match(/\[([\s\S]*?)\]/);
+  if (!jsonMatch) {
+    throw new Error("Could not find array in localVideoData.js");
+  }
+
+  // Safe parsing using new Function to execute JS array literal evaluation
+  const rawVideos = new Function(`return ${jsonMatch[0]}`)();
+
+  const batch: any[] = [];
+  for (const video of rawVideos) {
+    const youtubeId = video["YouTube Video ID"];
+    const startTime = parseInt(video["Start Time (seconds)"] || "0", 10);
+    const title = video["Video Title"];
+    const teacherName = video["Teacher Name"] || null;
+    const priority = parseInt(video["Priority"] || "0", 10);
+    const subject = video["Subject"] || "የተለያዩ ጥያቄዎች";
+
+    // Format subjects to match the screenshot tags
+    let mappedSubject = subject.trim();
+    if (mappedSubject === "ሀልዎተ እግዚአብሔር" || mappedSubject === "ሀለዎተ እግዚአብሔር") {
+      mappedSubject = "ህልውና እግዚአብሔር";
+    } else if (mappedSubject === "ነገረ ድህነት") {
+      mappedSubject = "ነገረ ድኅነት";
+    } else if (mappedSubject === "አዕማደ ምሥጢር") {
+      mappedSubject = "አዕማደ ምስጢር";
+    }
+
+    batch.push({
+      youtube_video_id: youtubeId,
+      start_time: startTime,
+      title: title,
+      teacher_name: teacherName,
+      priority: priority,
+      subject: mappedSubject
+    });
+  }
+
+  // Clear existing videos first
+  const { error: deleteError } = await supabase
+    .from("video_lessons")
+    .delete()
+    .neq("id", "00000000-0000-0000-0000-000000000000");
+
+  if (deleteError) {
+    console.error("Error clearing video lessons:", deleteError);
+  }
+
+  const { error: insertError } = await supabase
+    .from("video_lessons")
+    .insert(batch);
+
+  if (insertError) {
+    console.error("Error inserting video lessons:", insertError);
+    throw insertError;
+  }
+
+  console.log(`Seeded ${batch.length} video lessons successfully!`);
 }
 
 seed().catch((err) => {
   console.error("Seeding process failed:", err);
   process.exit(1);
 });
+
