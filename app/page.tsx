@@ -460,62 +460,94 @@ export default function LandingPage() {
                         </div>
                     </div>
 
-                    {/* 5. History - Coming Soon */}
+                    {/* 5. History - Patristics & Church Fathers */}
                     <div className="snap-start shrink-0">
-                        <div className="relative aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-alabaster/40 border border-accent-gold/15 p-6 flex flex-col justify-between opacity-60 grayscale hover:opacity-85 transition-all duration-300">
+                        <Link
+                            href={`/church-fathers?lang=${lang}`}
+                            className="group relative aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-parchment/65 hover:bg-bg-alabaster/55 border border-accent-gold/25 p-6 flex flex-col justify-between transition-all duration-350 soft-shadow-hover rounded-none cursor-pointer select-none"
+                        >
                             {/* Four Corner Crosses */}
-                            <span className="corner-cross top-[-7px] left-[-5px] opacity-40">✦</span>
-                            <span className="corner-cross top-[-7px] right-[-5px] opacity-40">✦</span>
-                            <span className="corner-cross bottom-[-7px] left-[-5px] opacity-40">✦</span>
-                            <span className="corner-cross bottom-[-7px] right-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
 
-                            <div className="flex justify-between items-start">
-                                <div className="h-11 w-11 bg-stone-100 border border-stone-250 flex items-center justify-center text-stone-500">
+                            <div className="flex justify-between items-start z-10">
+                                <div className="h-11 w-11 bg-accent-indigo/10 border border-accent-indigo/25 flex items-center justify-center text-accent-indigo group-hover:bg-accent-indigo group-hover:text-white transition-all duration-500">
                                     <Landmark className="h-5 w-5" />
                                 </div>
-                                <span className="px-2 py-0.5 rounded-none bg-stone-100 text-stone-500 text-[8px] ui-label font-bold tracking-widest uppercase border border-stone-200">
-                                    {t.comingSoon}
+                                <span className="px-2.5 py-1 rounded-none bg-accent-gold/10 text-accent-gold text-[8px] ui-label font-bold tracking-widest uppercase border border-accent-gold/25 flex items-center gap-1.5">
+                                    {/* 3-line lit candle icon */}
+                                    <svg className="w-3.5 h-3.5 text-accent-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                        <rect x="6" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M6.75 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="11.25" y="9" width="1.5" height="11" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M12 9c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="16.5" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M17.25 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                    </svg>
+                                    {t.activeLabel}
                                 </span>
                             </div>
 
-                            <div className="space-y-3">
-                                <h3 className="text-base font-serif font-extrabold text-stone-700 uppercase tracking-wider">
+                            <div className="z-10 space-y-3">
+                                <h3 className="text-base font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors uppercase tracking-wider">
                                     {t.historyTitle}
                                 </h3>
-                                <p className="text-[11px] text-stone-550 leading-relaxed font-light font-serif">
+                                <p className="text-[11px] text-stone-600 leading-relaxed font-light font-serif line-clamp-4">
                                     {t.historyDesc}
                                 </p>
+                                <div className="flex items-center text-[9px] ui-label font-bold text-accent-gold tracking-wider uppercase pt-2">
+                                    <span className="link-hover-draw">{lang === 'am' ? 'አበውን ይወቁ' : 'Explore Fathers'}</span>
+                                    <ChevronRight className="h-3.5 w-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
 
-                    {/* 6. Catechism - Coming Soon */}
+                    {/* 6. Catechism - Orthodox 101 */}
                     <div className="snap-start shrink-0">
-                        <div className="relative aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-alabaster/40 border border-accent-gold/15 p-6 flex flex-col justify-between opacity-60 grayscale hover:opacity-85 transition-all duration-300">
+                        <Link
+                            href={`/orthodox-101?lang=${lang}`}
+                            className="group relative aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-parchment/65 hover:bg-bg-alabaster/55 border border-accent-gold/25 p-6 flex flex-col justify-between transition-all duration-350 soft-shadow-hover rounded-none cursor-pointer select-none"
+                        >
                             {/* Four Corner Crosses */}
-                            <span className="corner-cross top-[-7px] left-[-5px] opacity-40">✦</span>
-                            <span className="corner-cross top-[-7px] right-[-5px] opacity-40">✦</span>
-                            <span className="corner-cross bottom-[-7px] left-[-5px] opacity-40">✦</span>
-                            <span className="corner-cross bottom-[-7px] right-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
 
-                            <div className="flex justify-between items-start">
-                                <div className="h-11 w-11 bg-stone-100 border border-stone-250 flex items-center justify-center text-stone-500">
+                            <div className="flex justify-between items-start z-10">
+                                <div className="h-11 w-11 bg-accent-indigo/10 border border-accent-indigo/25 flex items-center justify-center text-accent-indigo group-hover:bg-accent-indigo group-hover:text-white transition-all duration-500">
                                     <HelpCircle className="h-5 w-5" />
                                 </div>
-                                <span className="px-2 py-0.5 rounded-none bg-stone-100 text-stone-500 text-[8px] ui-label font-bold tracking-widest uppercase border border-stone-200">
-                                    {t.comingSoon}
+                                <span className="px-2.5 py-1 rounded-none bg-accent-gold/10 text-accent-gold text-[8px] ui-label font-bold tracking-widest uppercase border border-accent-gold/25 flex items-center gap-1.5">
+                                    {/* 3-line lit candle icon */}
+                                    <svg className="w-3.5 h-3.5 text-accent-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                        <rect x="6" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M6.75 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="11.25" y="9" width="1.5" height="11" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M12 9c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="16.5" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M17.25 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                    </svg>
+                                    {t.activeLabel}
                                 </span>
                             </div>
 
-                            <div className="space-y-3">
-                                <h3 className="text-base font-serif font-extrabold text-stone-700 uppercase tracking-wider">
+                            <div className="z-10 space-y-3">
+                                <h3 className="text-base font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors uppercase tracking-wider">
                                     {t.catechismTitle}
                                 </h3>
-                                <p className="text-[11px] text-stone-550 leading-relaxed font-light font-serif">
+                                <p className="text-[11px] text-stone-600 leading-relaxed font-light font-serif line-clamp-4">
                                     {t.catechismDesc}
                                 </p>
+                                <div className="flex items-center text-[9px] ui-label font-bold text-accent-gold tracking-wider uppercase pt-2">
+                                    <span className="link-hover-draw">{lang === 'am' ? 'ትምህርቶችን ይጀምሩ' : 'Start Lessons'}</span>
+                                    <ChevronRight className="h-3.5 w-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
 
                 </div>

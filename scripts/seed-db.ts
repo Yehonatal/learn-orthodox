@@ -250,6 +250,9 @@ async function seed() {
 
   // Seed video lessons
   await seedVideos();
+
+  // Seed orthodox lessons and church fathers
+  await seedLessonsAndFathers();
 }
 
 async function seedVideos() {
@@ -319,8 +322,104 @@ async function seedVideos() {
   console.log(`Seeded ${batch.length} video lessons successfully!`);
 }
 
+async function seedLessonsAndFathers() {
+  console.log("Seeding Orthodox Lessons & Church Fathers...");
+  
+  // 1. Seed Orthodox Lessons
+  const lessonsPath = path.join(process.cwd(), "content/lessons/am/basic_teaching.json");
+  if (!fs.existsSync(lessonsPath)) {
+    console.warn("basic_teaching.json not found at " + lessonsPath);
+    return;
+  }
+  const lessonsData = JSON.parse(fs.readFileSync(lessonsPath, "utf-8"));
+  const chapters = lessonsData.chapters || [];
+  
+  const lessonSlugs = [
+    "halwote-egziabher", 
+    "sine-fitret", 
+    "sew-lij-wudqet", 
+    "haymanot-dogma-qenona", 
+    "aemade-mesitir", 
+    "dihnet-be-christos", 
+    "menfes-qidus", 
+    "bete-christian-mininet", 
+    "sebat-mesitirat", 
+    "qidusan-mezaft-and-tiwfit", 
+    "dengil-maryam", 
+    "kidusan-semayat-amalajinet", 
+    "tsolot-and-tsom", 
+    "sine-migbar"
+  ];
+
+  const lessonBatch = chapters.map((ch: any, idx: number) => ({
+    slug: lessonSlugs[idx] || `lesson-${idx + 1}`,
+    title: ch.title,
+    description: ch.description
+  }));
+
+  // Clear existing lessons
+  const { error: deleteLessonsError } = await supabase
+    .from("orthodox_lessons")
+    .delete()
+    .neq("id", "00000000-0000-0000-0000-000000000000");
+  if (deleteLessonsError) {
+    console.error("Error clearing orthodox lessons:", deleteLessonsError);
+  }
+
+  // Insert lessons
+  const { error: insertLessonsError } = await supabase
+    .from("orthodox_lessons")
+    .insert(lessonBatch);
+  if (insertLessonsError) {
+    console.error("Error inserting orthodox lessons:", insertLessonsError);
+    throw insertLessonsError;
+  }
+  console.log(`Seeded ${lessonBatch.length} orthodox lessons successfully!`);
+
+  // 2. Seed Church Fathers
+  const fathersPath = path.join(process.cwd(), "content/lessons/en/churchfathers_data.json");
+  if (!fs.existsSync(fathersPath)) {
+    console.warn("churchfathers_data.json not found at " + fathersPath);
+    return;
+  }
+  const fathersData = JSON.parse(fs.readFileSync(fathersPath, "utf-8"));
+  const fatherBatch: any[] = [];
+  
+  for (const [category, fathersList] of Object.entries(fathersData)) {
+    if (Array.isArray(fathersList)) {
+      for (const father of fathersList) {
+        fatherBatch.push({
+          name: father.name,
+          category: category,
+          pdf_link: father.pdf_link
+        });
+      }
+    }
+  }
+
+  // Clear existing fathers
+  const { error: deleteFathersError } = await supabase
+    .from("church_fathers")
+    .delete()
+    .neq("id", "00000000-0000-0000-0000-000000000000");
+  if (deleteFathersError) {
+    console.error("Error clearing church fathers:", deleteFathersError);
+  }
+
+  // Insert fathers
+  const { error: insertFathersError } = await supabase
+    .from("church_fathers")
+    .insert(fatherBatch);
+  if (insertFathersError) {
+    console.error("Error inserting church fathers:", insertFathersError);
+    throw insertFathersError;
+  }
+  console.log(`Seeded ${fatherBatch.length} church fathers successfully!`);
+}
+
 seed().catch((err) => {
   console.error("Seeding process failed:", err);
   process.exit(1);
 });
+
 
