@@ -124,7 +124,7 @@ export default function LandingPage() {
             <div className="absolute bottom-0 right-0 w-[30vw] h-[300px] bg-gradient-to-t from-accent-blue/[0.04] to-transparent blur-[100px] pointer-events-none z-0" />
 
             {/* Header */}
-            <header className="max-w-7xl mx-auto w-full px-6 py-4 flex justify-between items-center z-10 border-b border-accent-gold/15 bg-bg-parchment/65 backdrop-blur-md rounded-t-xl relative">
+            <header className="max-w-7xl mx-auto w-full px-6 py-4 flex justify-between items-center z-10 border-b border-accent-gold/15 bg-bg-parchment/65 backdrop-blur-md relative">
                 <div className="flex items-center space-x-3.5">
                     <img
                         src="/glasswindow.png"
@@ -132,10 +132,10 @@ export default function LandingPage() {
                         className="h-9 w-auto object-contain filter drop-shadow-[0_2px_4px_rgba(197,146,70,0.15)]"
                     />
                     <div>
-                        <span className="block font-serif font-extrabold tracking-widest text-text-ink text-xs">
+                        <span className="block ui-label text-[10px] font-bold tracking-widest text-text-ink">
                             LEARN ORTHODOX
                         </span>
-                        <span className="block text-[7px] text-stone-500 tracking-wider uppercase font-medium mt-0.5">
+                        <span className="block text-[7px] text-stone-500 tracking-wider uppercase font-medium mt-0.5 font-sans">
                             Tewahedo Faith & Heritage
                         </span>
                     </div>
@@ -144,7 +144,7 @@ export default function LandingPage() {
                 <div className="flex items-center space-x-4">
                     <Link
                         href={`/study-space?lang=${lang}`}
-                        className="text-[10px] font-serif font-bold tracking-wider text-text-ink hover:text-accent-gold transition-colors uppercase cursor-pointer"
+                        className="text-[10px] ui-label font-bold tracking-wider text-text-ink hover:text-accent-gold transition-colors uppercase cursor-pointer"
                     >
                         {lang === "am" ? "የጥናት ክፍል" : "Study Space"}
                     </Link>
@@ -153,7 +153,7 @@ export default function LandingPage() {
                     {/* Language Selector */}
                     <button
                         onClick={handleLangToggle}
-                        className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-bg-parchment hover:bg-bg-alabaster border border-accent-gold/25 text-[10px] font-bold text-text-ink hover:text-accent-gold transition-all duration-300 cursor-pointer active:scale-95 shadow-none"
+                        className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-bg-parchment hover:bg-bg-alabaster border border-accent-gold/25 text-[10px] ui-label font-bold text-text-ink hover:text-accent-gold transition-all duration-300 cursor-pointer active:scale-95 shadow-none"
                     >
                         <Globe className="h-3.5 w-3.5 text-accent-gold" />
                         <span>{lang === "en" ? "አማርኛ" : "English"}</span>
@@ -162,22 +162,26 @@ export default function LandingPage() {
             </header>
 
             {/* Main Container */}
-            <main className="max-w-6xl mx-auto w-full px-6 py-10 md:py-16 z-10 flex-grow flex flex-col justify-center">
+            <main className="max-w-7xl mx-auto w-full px-6 py-10 md:py-16 z-10 flex-grow flex flex-col justify-center">
                 {/* Two-Column Top Section: Headline/Intro & Animated Visual Stained Glass */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
                     {/* Column 1: Editorial Headline (Span 7) */}
                     <div className="lg:col-span-7 flex flex-col items-start text-left relative">
-                        <span className="inline-block px-3.5 py-1 rounded-full bg-accent-gold/[0.06] border border-accent-gold/25 text-[8px] tracking-widest font-bold text-accent-gold uppercase mb-5">
-                            {t.heroBadge}
-                        </span>
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-extrabold tracking-tight text-text-ink mb-6 leading-[1.08]">
-                            <span className="text-accent-gold italic font-serif font-semibold pr-2">
+                        {/* Tagline */}
+                        <div className="ui-label text-xs tracking-[0.18em] text-accent-grey mb-4 font-bold">
+                            {lang === "am" ? "ተዋሕዶ ሃይማኖት • ቅርስ • ቅዱስ ትውፊት" : "TEWAHEDO FAITH • HERITAGE • SACRED TRADITION"}
+                        </div>
+
+                        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[90px] font-cormorant font-light tracking-wide mb-6 leading-[0.9] select-none">
+                            <span className="text-accent-gold italic font-light pr-3 block sm:inline">
                                 {t.heroTitleStart}
                             </span>
-                            <span>{t.heroTitleEnd}</span>
+                            <span className="text-accent-indigo font-light block sm:inline">
+                                {t.heroTitleEnd}
+                            </span>
                         </h1>
-                        <div className="w-20 h-[2px] bg-gradient-to-r from-accent-gold to-accent-crimson mb-6" />
-                        <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl font-light mb-8">
+                        <div className="w-20 h-[1.5px] bg-accent-gold mb-6" />
+                        <p className="text-stone-600 text-sm md:text-base leading-relaxed max-w-xl font-serif font-light mb-8">
                             {t.heroSubtitle}
                         </p>
 
@@ -185,14 +189,14 @@ export default function LandingPage() {
                         <div className="flex flex-wrap gap-4">
                             <Link
                                 href={`/liturgy/qiddase-dioscoros?lang=${lang}`}
-                                className="px-6 py-3 rounded-xl bg-accent-gold hover:bg-accent-gold/90 text-white text-[11px] font-extrabold tracking-wider uppercase transition-all shadow-none flex items-center gap-2 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                                className="px-6 py-3 rounded-none bg-accent-gold hover:bg-accent-gold/90 text-white text-[10px] ui-label font-bold tracking-wider uppercase transition-all shadow-none flex items-center gap-2 border border-accent-gold/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                             >
                                 <BookOpen className="h-3.5 w-3.5" />
                                 {t.exploreBtn}
                             </Link>
                             <Link
                                 href={`/study-space?lang=${lang}`}
-                                className="px-6 py-3 rounded-xl border border-accent-gold/30 hover:border-accent-gold text-text-ink hover:text-accent-gold bg-bg-parchment/40 text-[11px] font-extrabold tracking-wider uppercase transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                                className="px-6 py-3 rounded-none border border-accent-gold/30 hover:border-accent-gold text-text-ink hover:text-accent-gold bg-bg-parchment/40 text-[10px] ui-label font-bold tracking-wider uppercase transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                             >
                                 <BookMarked className="h-3.5 w-3.5" />
                                 {t.studySpaceBtn}
@@ -202,216 +206,328 @@ export default function LandingPage() {
 
                     {/* Column 2: Simulated CSS Stained Glass Window Pane (Span 5) */}
                     <div className="lg:col-span-5 hidden lg:flex justify-center relative">
-                        {/* Elegant Golden Arched Stained Glass Window Container */}
-                        <div className="w-[280px] h-[360px] rounded-t-full border-4 border-accent-gold bg-bg-alabaster/40 p-3 shadow-md relative overflow-hidden flex flex-col justify-between backdrop-blur-sm group hover:border-accent-gold/90 transition-colors duration-500">
-                            {/* Overlaying lead lines grid */}
-                            <div className="absolute inset-0 border-r border-l border-accent-gold/15 pointer-events-none" />
-                            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(197,146,70,0.1)_1.5px,transparent_1.5px)] bg-[size:100%_40px] pointer-events-none" />
+                        {/* Hand-drawn SVG Lalibela Window with animated staggered panes */}
+                        <div className="w-[300px] h-[400px] relative p-1">
+                            <svg viewBox="0 0 200 300" className="w-full h-full drop-shadow-[0_4px_12px_rgba(44,36,22,0.15)]">
+                                {/* Panes - color filled with stagger pulse animation */}
+                                {/* Top Arch Panes */}
+                                <path d="M10 100C10 50 50 10 100 10v90H10z" className="animate-pulse" style={{ animationDuration: '3s', animationDelay: '0.2s', fill: 'var(--color-accent-indigo)', opacity: 0.35 }} />
+                                <path d="M100 10C150 10 190 50 190 100H100V10z" className="animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '0.5s', fill: 'var(--color-accent-rose)', opacity: 0.35 }} />
+                                
+                                {/* Row 1 Panes */}
+                                <rect x="10" y="100" width="45" height="50" className="animate-pulse" style={{ animationDuration: '4s', animationDelay: '0.8s', fill: 'var(--color-accent-rose)', opacity: 0.3 }} />
+                                <rect x="55" y="100" width="90" height="50" className="animate-pulse" style={{ animationDuration: '3.2s', animationDelay: '1.1s', fill: 'var(--color-accent-gold)', opacity: 0.45 }} />
+                                <rect x="145" y="100" width="45" height="50" className="animate-pulse" style={{ animationDuration: '3.8s', animationDelay: '1.4s', fill: 'var(--color-accent-indigo)', opacity: 0.3 }} />
 
-                            {/* Glowing Panes inside the arch */}
-                            <div className="grid grid-cols-3 gap-2 h-full w-full opacity-60 group-hover:opacity-85 transition-opacity duration-700">
-                                {/* Panel row 1 */}
-                                <div className="bg-gradient-to-br from-accent-blue/30 to-accent-blue/5 rounded-t-full h-20" />
-                                <div className="bg-gradient-to-br from-accent-gold/45 to-accent-gold/10 rounded-t-full h-20" />
-                                <div className="bg-gradient-to-br from-accent-crimson/30 to-accent-crimson/5 rounded-t-full h-20" />
-                                {/* Panel row 2 */}
-                                <div className="bg-gradient-to-br from-accent-crimson/30 to-accent-crimson/5 h-24" />
-                                <div className="bg-gradient-to-br from-accent-blue/40 to-accent-blue/10 h-24 border border-accent-gold/30 flex items-center justify-center">
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                        className="w-8 h-8 text-accent-gold/75 animate-pulse"
-                                    >
-                                        <path
-                                            d="M12 2v20M2 12h20M12 6l3 3M12 6L9 9"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                        />
-                                    </svg>
-                                </div>
-                                <div className="bg-gradient-to-br from-accent-gold/30 to-accent-gold/5 h-24" />
-                                {/* Panel row 3 */}
-                                <div className="bg-gradient-to-br from-accent-gold/30 to-accent-gold/5 h-20" />
-                                <div className="bg-gradient-to-br from-accent-crimson/40 to-accent-crimson/10 h-20" />
-                                <div className="bg-gradient-to-br from-accent-blue/30 to-accent-blue/5 h-20" />
-                            </div>
+                                {/* Row 2 Center Cross Panel Panes */}
+                                <rect x="10" y="150" width="45" height="60" className="animate-pulse" style={{ animationDuration: '4.2s', animationDelay: '1.7s', fill: 'var(--color-accent-gold)', opacity: 0.25 }} />
+                                <rect x="55" y="150" width="90" height="60" className="animate-pulse" style={{ animationDuration: '3s', animationDelay: '0.1s', fill: 'var(--color-bg-alabaster)', opacity: 0.6 }} />
+                                <rect x="145" y="150" width="45" height="60" className="animate-pulse" style={{ animationDuration: '4.5s', animationDelay: '2s', fill: 'var(--color-accent-rose)', opacity: 0.25 }} />
 
-                            {/* Stained Glass Footer Label */}
-                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-bg-parchment/90 border border-accent-gold/35 rounded-full px-3 py-1 text-[8px] font-bold text-accent-gold tracking-widest uppercase">
+                                {/* Row 3 Panes */}
+                                <rect x="10" y="210" width="45" height="80" className="animate-pulse" style={{ animationDuration: '3.6s', animationDelay: '2.3s', fill: 'var(--color-accent-indigo)', opacity: 0.3 }} />
+                                <rect x="55" y="210" width="90" height="80" className="animate-pulse" style={{ animationDuration: '4s', animationDelay: '2.6s', fill: 'var(--color-accent-rose)', opacity: 0.3 }} />
+                                <rect x="145" y="210" width="45" height="80" className="animate-pulse" style={{ animationDuration: '3.4s', animationDelay: '2.9s', fill: 'var(--color-accent-gold)', opacity: 0.3 }} />
+
+                                {/* Outer Frame Line (basalt rock-hewn style) */}
+                                <path d="M10 290V100C10 50 50 10 100 10s90 40 90 90v190" fill="none" stroke="var(--color-accent-gold)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                                {/* Inner border styling dots */}
+                                <path d="M17 290V100C17 54 54 17 100 17s83 37 83 83v190" fill="none" stroke="var(--color-accent-gold)" strokeWidth="1" strokeDasharray="3,4" opacity="0.75" />
+                                
+                                {/* Vertical Grid Lines */}
+                                <line x1="55" y1="10" x2="55" y2="290" stroke="var(--color-accent-gold)" strokeWidth="1.5" />
+                                <line x1="145" y1="10" x2="145" y2="290" stroke="var(--color-accent-gold)" strokeWidth="1.5" />
+                                
+                                {/* Horizontal Grid Lines */}
+                                <line x1="10" y1="100" x2="190" y2="100" stroke="var(--color-accent-gold)" strokeWidth="1.5" />
+                                <line x1="10" y1="150" x2="190" y2="150" stroke="var(--color-accent-gold)" strokeWidth="1.5" />
+                                <line x1="10" y1="210" x2="190" y2="210" stroke="var(--color-accent-gold)" strokeWidth="1.5" />
+                                <line x1="10" y1="290" x2="190" y2="290" stroke="var(--color-accent-gold)" strokeWidth="3" />
+
+                                {/* Center Lalibela Cross Detail */}
+                                <path d="M85 180h30v3H85zm12-12h5v27h-5z" fill="var(--color-accent-gold)" />
+                                <circle cx="100" cy="180" r="1.5" fill="var(--color-bg-parchment)" />
+                            </svg>
+
+                            {/* Label */}
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-bg-parchment border border-accent-gold/45 rounded-none px-3 py-1 text-[8px] ui-label font-bold text-accent-gold tracking-widest uppercase shadow-sm">
                                 {t.visualWindowSubtitle}
                             </div>
                         </div>
 
-                        {/* Halo background glow behind stained glass */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] h-[240px] rounded-full bg-accent-gold/10 blur-[50px] -z-10 group-hover:scale-110 transition-transform duration-700" />
+                        {/* Background light glow */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] h-[240px] rounded-full bg-accent-gold/10 blur-[50px] -z-10" />
                     </div>
                 </div>
 
                 {/* Modules Header */}
-                <div className="w-full flex items-center gap-4 mb-8">
+                <div className="w-full flex items-center gap-4 mb-10">
                     <div className="h-[0.5px] bg-accent-gold/25 flex-grow" />
-                    <span className="text-[10px] font-serif font-bold text-accent-gold tracking-widest uppercase">
+                    <span className="text-[10px] ui-label font-bold text-accent-gold tracking-widest uppercase">
                         {lang === "am" ? "የትምህርት ክፍሎች" : "Explore Modules"}
                     </span>
                     <div className="h-[0.5px] bg-accent-gold/25 flex-grow" />
                 </div>
 
-                {/* Modules Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto w-full">
-                    {/* 1. Liturgy Reader - Active (Gold Arched Highlight) */}
-                    <Link
-                        href={`/liturgy/qiddase-dioscoros?lang=${lang}`}
-                        className="group block relative rounded-2xl bg-white border-2 border-accent-gold p-6 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 relative overflow-hidden"
-                    >
-                        {/* Top gold/crimson liturgical border line */}
-                        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-accent-gold via-accent-crimson to-accent-blue" />
+                {/* Modules Horizontal Scroll Row (Aspect Ratio 3:4 portrait cards) */}
+                <div className="flex gap-8 overflow-x-auto pb-10 pt-4 px-2 scrollbar-none snap-x snap-mandatory max-w-full">
+                    
+                    {/* 1. Liturgy Reader - Active */}
+                    <div className="snap-start shrink-0" data-aos="fade-up" data-aos-delay="100">
+                        <Link
+                            href={`/liturgy/qiddase-dioscoros?lang=${lang}`}
+                            className="group relative block aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-alabaster border border-accent-gold p-6 flex flex-col justify-between transition-all duration-300 shadow-[2px_2px_0_0_var(--color-accent-grey)] hover:shadow-[4px_4px_0_0_var(--color-accent-gold)] hover:-translate-y-1"
+                        >
+                            {/* Four Corner Crosses */}
+                            <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
 
-                        <div className="flex justify-between items-start mb-5 mt-1">
-                            <div className="h-11 w-11 rounded-t-full rounded-b-md bg-accent-blue/10 border border-accent-blue/20 flex items-center justify-center text-accent-blue group-hover:bg-accent-blue group-hover:text-white transition-all duration-500">
-                                <BookOpen className="h-4.5 w-4.5" />
+                            {/* Background Line Illustration watermark */}
+                            <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0">
+                                <svg className="w-full h-full p-4" viewBox="0 0 100 100" fill="currentColor">
+                                    <path d="M48 10h4v80h-4zM10 48h80v4H10z" />
+                                    <circle cx="50" cy="50" r="25" stroke="currentColor" strokeWidth="2" fill="none" />
+                                </svg>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-accent-blue/10 text-accent-blue text-[7px] font-bold tracking-widest uppercase border border-accent-blue/20 flex items-center gap-1">
-                                <span className="w-1 h-1 rounded-full bg-accent-blue animate-ping" />
-                                {t.activeLabel}
-                            </span>
-                        </div>
 
-                        <h3 className="text-base font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors mb-2 uppercase">
-                            {t.liturgyTitle}
-                        </h3>
-                        <p className="text-xs text-stone-600 leading-relaxed font-light mb-4">
-                            {t.liturgyDesc}
-                        </p>
-                        <div className="flex items-center text-[9px] font-bold text-accent-gold tracking-wider uppercase">
-                            <span>{t.exploreBtn}</span>
-                            <ChevronRight className="h-3.5 w-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                    </Link>
+                            <div className="flex justify-between items-start z-10">
+                                <div className="h-11 w-11 bg-accent-indigo/10 border border-accent-indigo/25 flex items-center justify-center text-accent-indigo group-hover:bg-accent-indigo group-hover:text-white transition-all duration-500">
+                                    <BookOpen className="h-5 w-5" />
+                                </div>
+                                <span className="px-2.5 py-1 rounded-none bg-accent-gold/10 text-accent-gold text-[8px] ui-label font-bold tracking-widest uppercase border border-accent-gold/25 flex items-center gap-1.5">
+                                    {/* 3-line lit candle icon */}
+                                    <svg className="w-3.5 h-3.5 text-accent-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                        <rect x="6" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M6.75 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="11.25" y="9" width="1.5" height="11" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M12 9c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="16.5" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M17.25 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                    </svg>
+                                    {t.activeLabel}
+                                </span>
+                            </div>
+
+                            <div className="z-10 space-y-3">
+                                <h3 className="text-base font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors uppercase tracking-wider">
+                                    {t.liturgyTitle}
+                                </h3>
+                                <p className="text-[11px] text-stone-600 leading-relaxed font-light font-serif line-clamp-4">
+                                    {t.liturgyDesc}
+                                </p>
+                                <div className="flex items-center text-[9px] ui-label font-bold text-accent-gold tracking-wider uppercase pt-2">
+                                    <span className="link-hover-draw">{t.exploreBtn}</span>
+                                    <ChevronRight className="h-3.5 w-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
 
                     {/* 2. Study Space - Active */}
-                    <Link
-                        href={`/study-space?lang=${lang}`}
-                        className="group block relative rounded-2xl bg-white border border-accent-gold/25 hover:border-accent-gold p-6 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 relative overflow-hidden"
-                    >
-                        {/* Top gold border line */}
-                        <div className="absolute top-0 left-0 right-0 h-1.5 bg-accent-gold" />
+                    <div className="snap-start shrink-0" data-aos="fade-up" data-aos-delay="200">
+                        <Link
+                            href={`/study-space?lang=${lang}`}
+                            className="group relative block aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-alabaster border border-accent-gold p-6 flex flex-col justify-between transition-all duration-300 shadow-[2px_2px_0_0_var(--color-accent-grey)] hover:shadow-[4px_4px_0_0_var(--color-accent-gold)] hover:-translate-y-1"
+                        >
+                            {/* Four Corner Crosses */}
+                            <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
 
-                        <div className="flex justify-between items-start mb-5 mt-1">
-                            <div className="h-11 w-11 rounded-t-full rounded-b-md bg-accent-gold/10 border border-accent-gold/25 flex items-center justify-center text-accent-gold group-hover:bg-accent-gold group-hover:text-white transition-all duration-500">
-                                <BookMarked className="h-4.5 w-4.5" />
+                            {/* Background Line Illustration watermark */}
+                            <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0">
+                                <svg className="w-full h-full p-4" viewBox="0 0 100 100" fill="currentColor">
+                                    <path d="M48 20h4v60h-4zM20 48h60v4H20z" />
+                                    <rect x="30" y="30" width="40" height="40" stroke="currentColor" strokeWidth="2" fill="none" />
+                                </svg>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-accent-gold/10 text-accent-gold text-[7px] font-bold tracking-widest uppercase border border-accent-gold/20 flex items-center gap-1">
-                                <span className="w-1 h-1 rounded-full bg-accent-gold animate-ping" />
-                                {t.activeLabel}
-                            </span>
-                        </div>
 
-                        <h3 className="text-base font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors mb-2 uppercase">
-                            {t.studySpaceLabel}
-                        </h3>
-                        <p className="text-xs text-stone-600 leading-relaxed font-light mb-4">
-                            {t.studySpaceDesc}
-                        </p>
-                        <div className="flex items-center text-[9px] font-bold text-accent-gold tracking-wider uppercase">
-                            <span>{t.studySpaceBtn}</span>
-                            <ChevronRight className="h-3.5 w-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                    </Link>
+                            <div className="flex justify-between items-start z-10">
+                                <div className="h-11 w-11 bg-accent-gold/10 border border-accent-gold/25 flex items-center justify-center text-accent-gold group-hover:bg-accent-gold group-hover:text-white transition-all duration-500">
+                                    <BookMarked className="h-5 w-5" />
+                                </div>
+                                <span className="px-2.5 py-1 rounded-none bg-accent-gold/10 text-accent-gold text-[8px] ui-label font-bold tracking-widest uppercase border border-accent-gold/25 flex items-center gap-1.5">
+                                    {/* 3-line lit candle icon */}
+                                    <svg className="w-3.5 h-3.5 text-accent-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                        <rect x="6" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M6.75 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="11.25" y="9" width="1.5" height="11" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M12 9c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="16.5" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M17.25 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                    </svg>
+                                    {t.activeLabel}
+                                </span>
+                            </div>
+
+                            <div className="z-10 space-y-3">
+                                <h3 className="text-base font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors uppercase tracking-wider">
+                                    {t.studySpaceLabel}
+                                </h3>
+                                <p className="text-[11px] text-stone-600 leading-relaxed font-light font-serif line-clamp-4">
+                                    {t.studySpaceDesc}
+                                </p>
+                                <div className="flex items-center text-[9px] ui-label font-bold text-accent-gold tracking-wider uppercase pt-2">
+                                    <span className="link-hover-draw">{t.studySpaceBtn}</span>
+                                    <ChevronRight className="h-3.5 w-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
 
                     {/* 3. Video Lessons - Active */}
-                    <Link
-                        href={`/videos?lang=${lang}`}
-                        className="group block relative rounded-2xl bg-white border border-accent-gold/25 hover:border-accent-gold p-6 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 relative overflow-hidden"
-                    >
-                        {/* Top gold border line */}
-                        <div className="absolute top-0 left-0 right-0 h-1.5 bg-accent-gold" />
+                    <div className="snap-start shrink-0" data-aos="fade-up" data-aos-delay="300">
+                        <Link
+                            href={`/videos?lang=${lang}`}
+                            className="group relative block aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-alabaster border border-accent-gold p-6 flex flex-col justify-between transition-all duration-300 shadow-[2px_2px_0_0_var(--color-accent-grey)] hover:shadow-[4px_4px_0_0_var(--color-accent-gold)] hover:-translate-y-1"
+                        >
+                            {/* Four Corner Crosses */}
+                            <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
+                            <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
 
-                        <div className="flex justify-between items-start mb-5 mt-1">
-                            <div className="h-11 w-11 rounded-t-full rounded-b-md bg-accent-gold/10 border border-accent-gold/25 flex items-center justify-center text-accent-gold group-hover:bg-accent-gold group-hover:text-white transition-all duration-500">
-                                <Play className="h-4.5 w-4.5" />
+                            {/* Background Line Illustration watermark */}
+                            <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0">
+                                <svg className="w-full h-full p-4" viewBox="0 0 100 100" fill="currentColor">
+                                    <path d="M50 15v70M15 50h70" stroke="currentColor" strokeWidth="2" strokeDasharray="3,3" />
+                                    <circle cx="50" cy="50" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+                                </svg>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-accent-gold/10 text-accent-gold text-[7px] font-bold tracking-widest uppercase border border-accent-gold/20 flex items-center gap-1">
-                                <span className="w-1 h-1 rounded-full bg-accent-gold animate-ping" />
-                                {t.activeLabel}
-                            </span>
-                        </div>
 
-                        <h3 className="text-base font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors mb-2 uppercase">
-                            {t.videosTitle}
-                        </h3>
-                        <p className="text-xs text-stone-600 leading-relaxed font-light mb-4">
-                            {t.videosDesc}
-                        </p>
-                        <div className="flex items-center text-[9px] font-bold text-accent-gold tracking-wider uppercase">
-                            <span>{t.videosBtn}</span>
-                            <ChevronRight className="h-3.5 w-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                    </Link>
-
-                    {/* 4. Audio player - Placeholder */}
-                    <div className="group relative rounded-2xl bg-white/40 border border-accent-gold/15 p-6 shadow-sm grayscale opacity-70 hover:opacity-80 transition-all duration-300">
-                        <div className="flex justify-between items-start mb-5">
-                            <div className="h-11 w-11 rounded-t-full rounded-b-md bg-stone-100 border border-stone-250 flex items-center justify-center text-stone-500">
-                                <Music className="h-4.5 w-4.5" />
+                            <div className="flex justify-between items-start z-10">
+                                <div className="h-11 w-11 bg-accent-indigo/10 border border-accent-indigo/25 flex items-center justify-center text-accent-indigo group-hover:bg-accent-indigo group-hover:text-white transition-all duration-500">
+                                    <Play className="h-5 w-5" />
+                                </div>
+                                <span className="px-2.5 py-1 rounded-none bg-accent-gold/10 text-accent-gold text-[8px] ui-label font-bold tracking-widest uppercase border border-accent-gold/25 flex items-center gap-1.5">
+                                    {/* 3-line lit candle icon */}
+                                    <svg className="w-3.5 h-3.5 text-accent-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                        <rect x="6" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M6.75 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="11.25" y="9" width="1.5" height="11" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M12 9c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                        <rect x="16.5" y="12" width="1.5" height="8" rx="0.5" fill="currentColor" stroke="none" />
+                                        <path d="M17.25 12c0-1.5 .75-2.5 .75-2.5s-.75 1-.75 2.5z" fill="var(--color-accent-rose)" stroke="none" />
+                                    </svg>
+                                    {t.activeLabel}
+                                </span>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[7px] font-bold tracking-widest uppercase border border-stone-200">
-                                {t.comingSoon}
-                            </span>
-                        </div>
-                        <h3 className="text-base font-serif font-extrabold text-stone-700 mb-2 uppercase">
-                            {t.audioTitle}
-                        </h3>
-                        <p className="text-xs text-stone-550 leading-relaxed font-light">
-                            {t.audioDesc}
-                        </p>
+
+                            <div className="z-10 space-y-3">
+                                <h3 className="text-base font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors uppercase tracking-wider">
+                                    {t.videosTitle}
+                                </h3>
+                                <p className="text-[11px] text-stone-600 leading-relaxed font-light font-serif line-clamp-4">
+                                    {t.videosDesc}
+                                </p>
+                                <div className="flex items-center text-[9px] ui-label font-bold text-accent-gold tracking-wider uppercase pt-2">
+                                    <span className="link-hover-draw">{t.videosBtn}</span>
+                                    <ChevronRight className="h-3.5 w-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
+                                </div>
+                            </div>
+                        </Link>
                     </div>
 
-                    {/* 5. History & Patristics - Placeholder */}
-                    <div className="group relative rounded-2xl bg-white/40 border border-accent-gold/15 p-6 shadow-sm grayscale opacity-70 hover:opacity-80 transition-all duration-300">
-                        <div className="flex justify-between items-start mb-5">
-                            <div className="h-11 w-11 rounded-t-full rounded-b-md bg-stone-100 border border-stone-250 flex items-center justify-center text-stone-500">
-                                <Landmark className="h-4.5 w-4.5" />
+                    {/* 4. Audio Chant - Coming Soon */}
+                    <div className="snap-start shrink-0">
+                        <div className="relative aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-alabaster/40 border border-accent-gold/15 p-6 flex flex-col justify-between opacity-60 grayscale hover:opacity-85 transition-all duration-300">
+                            {/* Four Corner Crosses */}
+                            <span className="corner-cross top-[-7px] left-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross top-[-7px] right-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross bottom-[-7px] left-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross bottom-[-7px] right-[-5px] opacity-40">✦</span>
+
+                            <div className="flex justify-between items-start">
+                                <div className="h-11 w-11 bg-stone-100 border border-stone-250 flex items-center justify-center text-stone-500">
+                                    <Music className="h-5 w-5" />
+                                </div>
+                                <span className="px-2 py-0.5 rounded-none bg-stone-100 text-stone-500 text-[8px] ui-label font-bold tracking-widest uppercase border border-stone-200">
+                                    {t.comingSoon}
+                                </span>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[7px] font-bold tracking-widest uppercase border border-stone-200">
-                                {t.comingSoon}
-                            </span>
+
+                            <div className="space-y-3">
+                                <h3 className="text-base font-serif font-extrabold text-stone-700 uppercase tracking-wider">
+                                    {t.audioTitle}
+                                </h3>
+                                <p className="text-[11px] text-stone-550 leading-relaxed font-light font-serif">
+                                    {t.audioDesc}
+                                </p>
+                            </div>
                         </div>
-                        <h3 className="text-base font-serif font-extrabold text-stone-700 mb-2 uppercase">
-                            {t.historyTitle}
-                        </h3>
-                        <p className="text-xs text-stone-550 leading-relaxed font-light">
-                            {t.historyDesc}
-                        </p>
                     </div>
 
-                    {/* 6. Catechism - Placeholder */}
-                    <div className="group relative rounded-2xl bg-white/40 border border-accent-gold/15 p-6 shadow-sm grayscale opacity-70 hover:opacity-80 transition-all duration-300">
-                        <div className="flex justify-between items-start mb-5">
-                            <div className="h-11 w-11 rounded-t-full rounded-b-md bg-stone-100 border border-stone-250 flex items-center justify-center text-stone-500">
-                                <HelpCircle className="h-4.5 w-4.5" />
+                    {/* 5. History - Coming Soon */}
+                    <div className="snap-start shrink-0">
+                        <div className="relative aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-alabaster/40 border border-accent-gold/15 p-6 flex flex-col justify-between opacity-60 grayscale hover:opacity-85 transition-all duration-300">
+                            {/* Four Corner Crosses */}
+                            <span className="corner-cross top-[-7px] left-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross top-[-7px] right-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross bottom-[-7px] left-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross bottom-[-7px] right-[-5px] opacity-40">✦</span>
+
+                            <div className="flex justify-between items-start">
+                                <div className="h-11 w-11 bg-stone-100 border border-stone-250 flex items-center justify-center text-stone-500">
+                                    <Landmark className="h-5 w-5" />
+                                </div>
+                                <span className="px-2 py-0.5 rounded-none bg-stone-100 text-stone-500 text-[8px] ui-label font-bold tracking-widest uppercase border border-stone-200">
+                                    {t.comingSoon}
+                                </span>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[7px] font-bold tracking-widest uppercase border border-stone-200">
-                                {t.comingSoon}
-                            </span>
+
+                            <div className="space-y-3">
+                                <h3 className="text-base font-serif font-extrabold text-stone-700 uppercase tracking-wider">
+                                    {t.historyTitle}
+                                </h3>
+                                <p className="text-[11px] text-stone-550 leading-relaxed font-light font-serif">
+                                    {t.historyDesc}
+                                </p>
+                            </div>
                         </div>
-                        <h3 className="text-base font-serif font-extrabold text-stone-700 mb-2 uppercase">
-                            {t.catechismTitle}
-                        </h3>
-                        <p className="text-xs text-stone-550 leading-relaxed font-light">
-                            {t.catechismDesc}
-                        </p>
                     </div>
+
+                    {/* 6. Catechism - Coming Soon */}
+                    <div className="snap-start shrink-0">
+                        <div className="relative aspect-[3/4] w-[280px] sm:w-[310px] bg-bg-alabaster/40 border border-accent-gold/15 p-6 flex flex-col justify-between opacity-60 grayscale hover:opacity-85 transition-all duration-300">
+                            {/* Four Corner Crosses */}
+                            <span className="corner-cross top-[-7px] left-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross top-[-7px] right-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross bottom-[-7px] left-[-5px] opacity-40">✦</span>
+                            <span className="corner-cross bottom-[-7px] right-[-5px] opacity-40">✦</span>
+
+                            <div className="flex justify-between items-start">
+                                <div className="h-11 w-11 bg-stone-100 border border-stone-250 flex items-center justify-center text-stone-500">
+                                    <HelpCircle className="h-5 w-5" />
+                                </div>
+                                <span className="px-2 py-0.5 rounded-none bg-stone-100 text-stone-500 text-[8px] ui-label font-bold tracking-widest uppercase border border-stone-200">
+                                    {t.comingSoon}
+                                </span>
+                            </div>
+
+                            <div className="space-y-3">
+                                <h3 className="text-base font-serif font-extrabold text-stone-700 uppercase tracking-wider">
+                                    {t.catechismTitle}
+                                </h3>
+                                <p className="text-[11px] text-stone-550 leading-relaxed font-light font-serif">
+                                    {t.catechismDesc}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </main>
 
             {/* Footer */}
-            <footer className="w-full py-8 border-t border-accent-gold/15 bg-bg-alabaster/40 backdrop-blur-sm rounded-b-xl relative">
-                <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-stone-500 text-[9px] tracking-wider uppercase space-y-4 md:space-y-0 font-medium">
+            <footer className="w-full py-8 border-t border-accent-gold/15 bg-bg-alabaster/40 backdrop-blur-sm relative">
+                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-stone-500 text-[9px] ui-label font-bold tracking-wider uppercase space-y-4 md:space-y-0">
                     <p className="max-w-md text-center md:text-left leading-relaxed">
                         {t.footerText}
                     </p>
-                    <div className="flex space-x-6 font-semibold text-text-ink/65">
+                    <div className="flex space-x-6 text-text-ink/65">
                         <span>© {new Date().getFullYear()} LEARN ORTHODOX</span>
                     </div>
                 </div>

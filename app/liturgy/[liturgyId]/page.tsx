@@ -214,53 +214,107 @@ export default async function LiturgyPage({ params, searchParams }: PageProps) {
 
       {/* Sticky Navigation Header */}
       <header className="border-b border-accent-gold/20 bg-bg-parchment/80 backdrop-blur-md sticky top-0 z-20 shadow-none">
-        <div className="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Link href={`/?lang=${lang}`} className="flex items-center space-x-3.5 group">
-              <img src="/glasswindow.png" alt="Learn Orthodox Stained Glass Logo" className="h-8 w-auto object-contain filter drop-shadow-[0_2px_4px_rgba(197,146,70,0.1)] group-hover:scale-105 transition-transform duration-300" />
-              <div className="hidden sm:block">
-                <span className="block text-xs font-serif font-extrabold tracking-wider text-text-ink group-hover:text-accent-gold transition-colors">
-                  {lang === 'am' ? 'ኦርቶዶክስን ይማሩ' : 'LEARN ORTHODOX'}
-                </span>
-                <span className="block text-[8px] tracking-widest text-stone-500 uppercase">
-                  {lang === 'am' ? 'የሥርዓተ ቅዳሴ አንባቢ' : 'Divine Liturgy Reader'}
-                </span>
-              </div>
-            </Link>
-            
-            <div className="hidden md:block w-[1px] h-4 bg-accent-gold/30" />
-            
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+          {/* Left: Logo */}
+          <Link href={`/?lang=${lang}`} className="flex items-center space-x-3.5 group w-1/4">
+            <img src="/glasswindow.png" alt="Learn Orthodox Stained Glass Logo" className="h-8 w-auto object-contain filter drop-shadow-[0_2px_4px_rgba(197,146,70,0.1)] group-hover:scale-105 transition-transform duration-300" />
+            <div className="hidden sm:block">
+              <span className="block text-xs font-serif font-extrabold tracking-wider text-text-ink group-hover:text-accent-gold transition-colors">
+                {lang === 'am' ? 'ኦርቶዶክስን ይማሩ' : 'LEARN ORTHODOX'}
+              </span>
+              <span className="block text-[7px] text-stone-550 tracking-wider uppercase font-medium mt-0.5">
+                EOTC Portal
+              </span>
+            </div>
+          </Link>
+          
+          {/* Center: Centered active page name & Liturgy Title */}
+          <div className="text-center flex-grow flex flex-col justify-center items-center">
+            <span className="block font-serif font-extrabold text-[11px] sm:text-xs text-text-ink tracking-wider uppercase Ethiopic-font">
+              {lang === 'am' ? (liturgy.nameAm || liturgy.nameEn) : liturgy.nameEn}
+            </span>
+            <span className="block text-[8px] text-accent-crimson tracking-widest uppercase font-bold mt-0.5">
+              {liturgySubtitle || (lang === 'am' ? 'ሥርዓተ ቅዳሴ' : 'Divine Liturgy Reader')}
+            </span>
+          </div>
+
+          {/* Right: Actions */}
+          <div className="flex items-center justify-end gap-2 sm:gap-4 select-none w-1/4">
             <Link 
               href={`/study-space?lang=${lang}`} 
-              className="hidden md:inline-block text-[10px] font-serif font-bold tracking-wider text-accent-gold hover:text-accent-gold/85 uppercase cursor-pointer"
+              className="hidden md:inline-block text-[10px] font-serif font-bold tracking-wider text-text-ink hover:text-accent-gold transition-colors uppercase cursor-pointer"
             >
               {lang === 'am' ? 'የጥናት ክፍል' : 'Study Space'}
             </Link>
-          </div>
-
-          <div className="flex items-center gap-3.5">
-            {/* Mobile Study Space Link */}
+            <div className="hidden md:block w-[1px] h-3 bg-accent-gold/25" />
             <Link 
-              href={`/study-space?lang=${lang}`} 
-              className="inline-block md:hidden px-2.5 py-1 rounded-full border border-accent-gold/25 text-[8px] font-bold text-accent-gold uppercase tracking-wider bg-bg-parchment hover:bg-bg-alabaster transition-colors"
+              href={`/videos?lang=${lang}`} 
+              className="hidden md:inline-block text-[10px] font-serif font-bold tracking-wider text-text-ink hover:text-accent-gold transition-colors uppercase cursor-pointer"
             >
-              {lang === 'am' ? 'የጥናት ክፍል' : 'Study'}
+              {lang === 'am' ? 'ቪዲዮዎች' : 'Videos'}
             </Link>
-
-            <div className="text-right">
-              <h1 className="text-xs md:text-sm font-serif font-extrabold text-text-ink tracking-wide uppercase">
-                {lang === 'am' ? (liturgy.nameAm || liturgy.nameEn) : liturgy.nameEn}
-              </h1>
-              {liturgy.saint && <p className="text-[9px] text-accent-crimson font-bold uppercase tracking-wider mt-0.5">{liturgySubtitle}</p>}
-            </div>
+            <div className="w-[1px] h-3 bg-accent-gold/25" />
+            <Link
+              href={`/liturgy/${liturgyId}?lang=${lang === 'en' ? 'am' : 'en'}`}
+              className="px-2 py-0.5 rounded-none border border-accent-gold/25 text-[9px] font-bold text-text-ink uppercase tracking-wider hover:bg-bg-alabaster transition-colors"
+            >
+              {lang === 'en' ? 'አማርኛ' : 'EN'}
+            </Link>
           </div>
         </div>
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-4xl mx-auto w-full px-4 py-6 flex-grow flex flex-col">
+      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-4 flex-grow flex flex-col">
         <SectionNav sections={sections} activeSlug={activeSection?.slug} lang={lang} />
         {activeSection && <TrilingualReader units={activeSection.units} lang={lang} />}
+        
+        {/* Next/Prev Section navigation: 36px circular buttons, 1-stroke SVGs */}
+        {(() => {
+          const currentIndex = sections.findIndex(s => s.slug === activeSection?.slug);
+          const prevSection = currentIndex > 0 ? sections[currentIndex - 1] : null;
+          const nextSection = currentIndex < sections.length - 1 ? sections[currentIndex + 1] : null;
+          
+          return (
+            <div className="flex justify-between items-center mt-6 pt-4 border-t border-accent-gold/15">
+              {prevSection ? (
+                <Link 
+                  href={`?section=${prevSection.slug}&lang=${lang}`}
+                  prefetch={false}
+                  className="group flex items-center gap-2.5 text-left"
+                >
+                  <div className="w-9 h-9 rounded-full border border-accent-gold/30 flex items-center justify-center text-text-ink hover:text-accent-gold hover:border-accent-gold transition-all duration-300 active:scale-95 bg-transparent">
+                    <svg className="w-4 h-4 stroke-current stroke-[1.25]" viewBox="0 0 24 24" fill="none">
+                      <path d="M19 12H5M5 12L12 19M5 12L12 5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="block text-[7px] ui-label font-bold text-accent-grey uppercase tracking-widest leading-none mb-0.5">{lang === 'am' ? 'ያለፈው ክፍል' : 'PREVIOUS SECTION'}</span>
+                    <span className="block text-[10px] font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors leading-tight">{lang === 'am' ? (prevSection.nameAm || prevSection.nameEn) : prevSection.nameEn}</span>
+                  </div>
+                </Link>
+              ) : <div />}
+
+              {nextSection ? (
+                <Link 
+                  href={`?section=${nextSection.slug}&lang=${lang}`}
+                  prefetch={false}
+                  className="group flex items-center gap-2.5 text-right flex-row-reverse"
+                >
+                  <div className="w-9 h-9 rounded-full border border-accent-gold/30 flex items-center justify-center text-text-ink hover:text-accent-gold hover:border-accent-gold transition-all duration-300 active:scale-95 bg-transparent">
+                    <svg className="w-4 h-4 stroke-current stroke-[1.25]" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="block text-[7px] ui-label font-bold text-accent-grey uppercase tracking-widest leading-none mb-0.5">{lang === 'am' ? 'ቀጣዩ ክፍል' : 'NEXT SECTION'}</span>
+                    <span className="block text-[10px] font-serif font-extrabold text-text-ink group-hover:text-accent-gold transition-colors leading-tight">{lang === 'am' ? (nextSection.nameAm || nextSection.nameEn) : nextSection.nameEn}</span>
+                  </div>
+                </Link>
+              ) : <div />}
+            </div>
+          );
+        })()}
       </main>
 
       {/* Footer */}

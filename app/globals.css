@@ -3,19 +3,26 @@
 
 @theme {
   --font-ethiopic: var(--font-noto-serif-ethiopic), serif;
-  --font-serif: var(--font-cormorant), var(--font-noto-serif-ethiopic), Georgia, serif;
+  --font-serif: var(--font-eb-garamond), var(--font-noto-serif-ethiopic), Georgia, serif;
+  --font-cormorant: var(--font-cormorant), serif;
+  --font-space-grotesk: var(--font-space-grotesk), sans-serif;
   --font-sans: var(--font-inter), 'Satoshi', 'Inter', sans-serif;
 
-  --color-bg-parchment: #FAF6F0;
-  --color-bg-alabaster: #F3ECE3;
-  --color-text-ink: #1C1F26;
-  --color-accent-gold: #C59246;
-  --color-accent-crimson: #931A1C;
-  --color-accent-blue: #1A3B5C;
+  --color-bg-parchment: #F0E8D5; /* Vellum */
+  --color-bg-alabaster: #E6DCBF; /* Aged Vellum Shadow / Card Bg */
+  --color-text-ink: #2C2416; /* Lalibela Stone */
+  --color-accent-gold: #C49A22; /* Processional Gold */
+  --color-accent-indigo: #1E2B4A; /* Sanctuary Indigo */
+  --color-accent-rose: #C4786B; /* Hagiographic Rose */
+  --color-accent-grey: #8C8070; /* Incense Smoke */
+
+  /* Map old accents to new ones to ensure maximum compatibility and beauty */
+  --color-accent-crimson: #C4786B; /* Hagiographic Rose */
+  --color-accent-blue: #1E2B4A; /* Sanctuary Indigo */
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-eb-garamond), serif;
   background-color: var(--color-bg-parchment);
   color: var(--color-text-ink);
   min-height: 100vh;
@@ -36,32 +43,96 @@ body {
   font-family: var(--font-noto-serif-ethiopic), serif;
 }
 
+/* UI Label / Navigation font style */
+.ui-label {
+  font-family: var(--font-space-grotesk), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
 /* Sonner Toast custom minimal styling overrides */
 .sonner-toast-custom {
   background-color: var(--color-bg-parchment) !important;
   color: var(--color-text-ink) !important;
-  border: 0.5px solid rgba(197, 146, 70, 0.3) !important; /* accent-gold/30 */
-  border-left: 3px solid var(--color-accent-gold) !important;
-  border-radius: 8px !important;
-  font-family: var(--font-sans) !important;
+  border: 1px solid var(--color-accent-gold) !important;
+  border-radius: 0px !important;
+  font-family: var(--font-space-grotesk) !important;
+  box-shadow: 2px 2px 0 0 var(--color-accent-grey) !important;
 }
 
 .sonner-toast-custom-blue {
   background-color: var(--color-bg-parchment) !important;
   color: var(--color-text-ink) !important;
-  border: 0.5px solid rgba(197, 146, 70, 0.3) !important; /* accent-gold/30 */
-  border-left: 3px solid var(--color-accent-blue) !important;
-  border-radius: 8px !important;
-  font-family: var(--font-sans) !important;
+  border: 1px solid var(--color-accent-indigo) !important;
+  border-radius: 0px !important;
+  font-family: var(--font-space-grotesk) !important;
+  box-shadow: 2px 2px 0 0 var(--color-accent-grey) !important;
 }
 
-/* Custom super soft shadows (less harsh) */
+/* Custom solid offset shadows instead of blurred shadows */
 .soft-shadow {
-  box-shadow: 0 4px 24px -4px rgba(139, 92, 26, 0.02), 0 2px 6px -1px rgba(0, 0, 0, 0.015);
+  box-shadow: 2px 2px 0 0 var(--color-accent-grey);
 }
 .soft-shadow-hover {
-  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 .soft-shadow-hover:hover {
-  box-shadow: 0 8px 30px -4px rgba(139, 92, 26, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+  box-shadow: 4px 4px 0 0 var(--color-accent-gold);
+  transform: translate(-1px, -1px);
 }
+
+/* Manuscript & Cross-Lattice styling */
+.manuscript-card {
+  border: 1px solid var(--color-accent-gold);
+  position: relative;
+  border-radius: 0 !important;
+  background-color: var(--color-bg-alabaster);
+  box-shadow: 2px 2px 0 0 var(--color-accent-grey);
+}
+
+.manuscript-card::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  border: 1px solid rgba(196, 154, 34, 0.25); /* gold at 25% opacity */
+  pointer-events: none;
+}
+
+.corner-cross {
+  position: absolute;
+  color: var(--color-accent-gold);
+  font-size: 10px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 10;
+  user-select: none;
+}
+
+/* Repeating Ethiopic cross pattern divider */
+.ethiopic-divider {
+  height: 24px;
+  width: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C49A22' fill-opacity='0.3'%3E%3Cpath d='M11 1v6H5v4h6v6H5v4h6v2h2v-2h6v-4h-6v-6h6V7h-6V1h-2zm1 8c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 24px 24px;
+  border: none;
+  margin: 2rem auto;
+}
+
+/* Left-to-right drawing hover lines for links */
+.link-hover-draw {
+  position: relative;
+  text-decoration: none;
+  background-image: linear-gradient(var(--color-accent-gold), var(--color-accent-gold));
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: background-size 0.3s ease;
+}
+.link-hover-draw:hover {
+  background-size: 100% 1px;
+}
+

@@ -366,7 +366,6 @@ export default function AIExplainer({
         }
     };
 
-    // Render text with an elegant gold drop cap (for the initial commentary)
     const renderWithDropCap = (text: string) => {
         if (!text) return null;
         return (
@@ -380,415 +379,273 @@ export default function AIExplainer({
         PROVIDERS.find((p) => p.id === provider)?.name || provider;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white/85 backdrop-blur-xl border-t border-accent-gold/35 shadow-[0_-12px_45px_rgba(0,0,0,0.06)] p-6 max-h-[85vh] overflow-y-auto z-40 animate-in slide-in-from-bottom duration-300 rounded-t-2xl">
-            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {/* Left Sidebar Column (col-span-4): Passage context, model config, metadata */}
-                <div className="lg:col-span-4 flex flex-col justify-between lg:pr-6 lg:border-r lg:border-accent-gold/20">
+        <div className="fixed top-0 right-0 h-screen w-full sm:w-[500px] bg-bg-parchment/95 backdrop-blur-md border-l border-accent-gold/25 shadow-[-10px_0_40px_rgba(44,36,22,0.12)] z-50 p-6 overflow-y-auto flex flex-col justify-between animate-in slide-in-from-right duration-300">
+            {/* Inner Content */}
+            <div className="flex flex-col flex-grow">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-5 pb-3 border-b border-accent-gold/15">
                     <div>
-                        {/* Header */}
-                        <div className="flex justify-between items-center mb-4 pb-2 border-b border-accent-gold/15">
-                            <div>
-                                <span className="flex items-center gap-1.5 font-serif font-bold text-accent-gold text-xs tracking-wider uppercase">
-                                    <Heart className="h-3.5 w-3.5" />
-                                    {lang === "am"
-                                        ? "የየነገረ መለኮት ማብራሪያ"
-                                        : "Theological Explainer"}
-                                </span>
-                                <p className="text-[9px] text-stone-400 mt-0.5 uppercase tracking-wider">
-                                    {lang === "am"
-                                        ? "የኦርቶዶክስ ትምህርት ማብራሪያ"
-                                        : "Learn Orthodox Commentary Layer"}
-                                </p>
-                            </div>
-                            <button
-                                onClick={onClose}
-                                className="text-stone-400 hover:text-text-ink transition-colors p-1.5 bg-stone-100 hover:bg-stone-250/60 rounded-full cursor-pointer"
-                            >
-                                <X className="h-4 w-4" />
-                            </button>
-                        </div>
-
-                        {/* Selected verse preview card */}
-                        <div className="bg-bg-parchment/65 rounded-xl p-4 border border-accent-gold/25 mb-4">
-                            <div className="text-[9px] font-bold text-accent-crimson uppercase tracking-widest mb-1.5">
-                                {lang === "am"
-                                    ? `ተናጋሪ፦ ${ROLE_LABELS_AM[unit.role] || unit.role}`
-                                    : `Spoken by: ${ROLE_LABELS_EN[unit.role] || unit.role}`}
-                            </div>
-                            {unit.textGez && (
-                                <p
-                                    className="text-lg text-accent-blue font-serif font-semibold Ethiopic-font mb-2 leading-relaxed"
-                                    style={{
-                                        fontFamily:
-                                            "var(--font-noto-serif-ethiopic), serif",
-                                    }}
-                                >
-                                    {unit.textGez}
-                                </p>
-                            )}
-                            {unit.textAm && (
-                                <p
-                                    className="text-xs text-stone-750 font-medium Ethiopic-font mb-2 leading-relaxed"
-                                    style={{
-                                        fontFamily:
-                                            "var(--font-noto-serif-ethiopic), serif",
-                                    }}
-                                >
-                                    {unit.textAm}
-                                </p>
-                            )}
-                            <p className="text-stone-600 text-xs italic font-light leading-relaxed">
-                                &ldquo;{unit.textEn}&rdquo;
-                            </p>
-                        </div>
-
-                        {/* Model/Provider configuration dropdowns (visible if not loaded or during reset) */}
-                        {messages.length === 0 && !loading && (
-                            <div className="grid grid-cols-2 gap-3 mb-4">
-                                <div>
-                                    <label className="block text-[9px] font-bold text-stone-500 uppercase tracking-widest mb-1">
-                                        {lang === "am" ? "አቅራቢ" : "Provider"}
-                                    </label>
-                                    <select
-                                        value={provider}
-                                        onChange={(e) => {
-                                            const p = e.target.value;
-                                            setProvider(p);
-                                            const found = PROVIDERS.find(
-                                                (prov) => prov.id === p,
-                                            );
-                                            if (found)
-                                                setModel(found.models[0]);
-                                        }}
-                                        className="w-full bg-bg-parchment border border-accent-gold/25 text-text-ink rounded-lg px-2.5 py-1.5 text-xs focus:border-accent-gold outline-none"
-                                    >
-                                        {PROVIDERS.map((p) => (
-                                            <option key={p.id} value={p.id}>
-                                                {p.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-[9px] font-bold text-stone-500 uppercase tracking-widest mb-1">
-                                        {lang === "am" ? "ሞዴል" : "Model"}
-                                    </label>
-                                    <select
-                                        value={model}
-                                        onChange={(e) =>
-                                            setModel(e.target.value)
-                                        }
-                                        className="w-full bg-bg-parchment border border-accent-gold/25 text-text-ink rounded-lg px-2.5 py-1.5 text-xs focus:border-accent-gold outline-none"
-                                    >
-                                        {PROVIDERS.find(
-                                            (p) => p.id === provider,
-                                        )?.models.map((m) => (
-                                            <option key={m} value={m}>
-                                                {m}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* If currently chatting, show a small pill summarizing selected model */}
-                        {messages.length > 0 && (
-                            <div className="px-3.5 py-2 rounded-lg bg-bg-alabaster/40 border border-accent-gold/15 text-[10px] text-stone-600 mb-4 flex items-center justify-between">
-                                <span>
-                                    {lang === "am"
-                                        ? "በአገልግሎት ላይ ያለ ሞዴል፦"
-                                        : "Active Model:"}{" "}
-                                    <strong>
-                                        {activeModelName} ({model})
-                                    </strong>
-                                </span>
-                                <button
-                                    onClick={() => {
-                                        setMessages([]);
-                                        setInputValue("");
-                                    }}
-                                    className="text-accent-crimson hover:underline text-[9px] font-bold tracking-wider uppercase cursor-pointer"
-                                >
-                                    {lang === "am"
-                                        ? "ቻቱን አዲስ ጀምር"
-                                        : "Reset Chat"}
-                                </button>
-                            </div>
-                        )}
+                        <span className="flex items-center gap-1.5 ui-label font-bold text-accent-gold text-xs tracking-wider uppercase">
+                            <Heart className="h-3.5 w-3.5 text-accent-rose fill-accent-rose/20" />
+                            {lang === "am" ? "የነገረ መለኮት ማብራሪያ" : "Theological Explainer"}
+                        </span>
+                        <p className="text-[9px] text-stone-400 mt-0.5 uppercase tracking-wider font-sans">
+                            {lang === "am" ? "የኦርቶዶክስ ትምህርት ማብራሪያ" : "Learn Orthodox Commentary Layer"}
+                        </p>
                     </div>
-
-                    {/* Trigger Initial Commentary */}
-                    {messages.length === 0 && (
-                        <button
-                            onClick={explain}
-                            disabled={loading}
-                            className="w-full py-2.5 px-4 bg-accent-gold hover:bg-accent-gold/90 text-white rounded-xl text-xs font-bold tracking-wider uppercase transition-all disabled:opacity-50 cursor-pointer shadow-none active:scale-[0.99]"
-                        >
-                            {loading
-                                ? lang === "am"
-                                    ? "የነገረ መለኮት ማብራሪያውን በመፈለግ ላይ..."
-                                    : "Consulting theological library..."
-                                : lang === "am"
-                                  ? "ማብራሪያ ጠይቅ"
-                                  : "Consult Commentary"}
-                        </button>
-                    )}
+                    <button
+                        onClick={onClose}
+                        className="text-stone-400 hover:text-text-ink transition-colors p-1.5 bg-stone-100 hover:bg-stone-250/60 rounded-none border border-accent-gold/20 cursor-pointer"
+                    >
+                        <X className="h-4 w-4" />
+                    </button>
                 </div>
 
-                {/* Right Main Column (col-span-8): The Claude UI-like Chat Interface */}
-                <div className="lg:col-span-8 flex flex-col justify-between min-h-[350px] lg:h-[60vh]">
-                    {/* Messages Space */}
-                    <div className="flex-grow overflow-y-auto pr-2 space-y-4 mb-4 scrollbar-none">
-                        {messages.length === 0 && !loading && (
-                            <div className="h-full flex flex-col items-center justify-center text-center py-14">
-                                <Heart className="h-9 w-9 text-accent-gold/30 mb-3" />
-                                <p className="text-xs text-stone-500 font-light max-w-sm">
-                                    {lang === "am"
-                                        ? 'ስለ ጥቅሱ ዝርዝር ማብራሪያ ለማግኘት "ማብራሪያ ጠይቅ" የሚለውን ይጫኑ። አንዴ ማብራሪያው ሲጫን ተጨማሪ ጥያቄዎችን በውይይት መጠየቅ ይችላሉ።'
-                                        : 'Click "Consult Commentary" to analyze the selected verse. Once loaded, you can ask follow-up questions in an interactive chat session.'}
-                                </p>
-                            </div>
-                        )}
+                {/* Selected verse preview card */}
+                <div className="relative bg-bg-alabaster/65 p-4 border border-accent-gold/30 mb-5 shadow-[2px_2px_0_0_rgba(140,128,112,0.15)]">
+                    <span className="corner-cross top-[-7px] left-[-5px]">✦</span>
+                    <span className="corner-cross top-[-7px] right-[-5px]">✦</span>
+                    <span className="corner-cross bottom-[-7px] left-[-5px]">✦</span>
+                    <span className="corner-cross bottom-[-7px] right-[-5px]">✦</span>
 
-                        {/* Loading Indicator for Initial Commentary */}
-                        {loading && messages.length === 0 && (
-                            <div className="h-full flex flex-col items-center justify-center py-14">
-                                <div className="animate-spin rounded-full h-8 w-8 border-2 border-accent-gold border-t-transparent mb-4"></div>
-                                <p className="text-xs text-accent-gold font-serif font-semibold tracking-wide uppercase">
-                                    {lang === "am"
-                                        ? "ማብራሪያ በመጻፍ ላይ..."
-                                        : "Formulating commentary..."}
-                                </p>
-                                <p className="text-[10px] text-stone-400 mt-1">
-                                    {lang === "am"
-                                        ? "የአበው ድርሳናትንና የሥርዓተ ቅዳሴውን ሰንሰለት በመመርመር ላይ..."
-                                        : "Accessing patristic archives and liturgical contexts"}
-                                </p>
-                            </div>
-                        )}
-
-                        {/* Chat History Log */}
-                        {messages.map((msg, index) => {
-                            const isUser = msg.role === "user";
-
-                            return (
-                                <div
-                                    key={index}
-                                    className={`flex flex-col ${isUser ? "items-end" : "items-start"} animate-in fade-in duration-300`}
-                                >
-                                    {/* Speaker Label */}
-                                    <span className="text-[8px] font-bold text-stone-400 uppercase tracking-widest mb-1 px-1">
-                                        {isUser
-                                            ? lang === "am"
-                                                ? "እርስዎ"
-                                                : "You"
-                                            : lang === "am"
-                                              ? `የኦርቶዶክስ AI (${activeModelName})`
-                                              : `Learn Orthodox AI (${activeModelName})`}
-                                    </span>
-
-                                    {/* Message Bubble Content */}
-                                    <div
-                                        className={`max-w-full md:max-w-[85%] rounded-xl p-4 ${
-                                            isUser
-                                                ? "bg-bg-alabaster/40 border border-accent-gold/20 text-text-ink text-xs md:text-sm font-sans"
-                                                : "bg-transparent text-text-ink"
-                                        }`}
-                                    >
-                                        {/* If it's an assistant error block, show EVERYTHING without cutting */}
-                                        {msg.isError ? (
-                                            <div className="border border-accent-crimson/30 rounded-xl p-4 bg-accent-crimson/[0.02] text-accent-crimson">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <AlertTriangle className="h-4 w-4" />
-                                                    <span className="font-serif font-bold text-xs uppercase tracking-wider">
-                                                        Detailed Fetch / API
-                                                        Failure Report
-                                                    </span>
-                                                </div>
-                                                <p className="text-xs font-serif font-semibold mb-3">
-                                                    {msg.content}
-                                                </p>
-                                                <div className="bg-stone-900 text-stone-200 p-3 rounded-lg text-[10px] font-mono whitespace-pre overflow-x-auto max-w-full leading-normal border border-stone-850">
-                                                    {msg.errorDetails}
-                                                </div>
-                                                <p className="text-[9px] text-stone-500 mt-2 italic font-sans">
-                                                    Tip: To bypass
-                                                    timeout/blocked connection
-                                                    issues, configure a proxy in
-                                                    GEMINI_BASE_URL inside your
-                                                    environment.
-                                                </p>
-                                            </div>
-                                        ) : msg.parsedCommentary ? (
-                                            /* Render Initial Structured Cards */
-                                            <div className="space-y-4">
-                                                {msg.parsedCommentary.core && (
-                                                    <div className="bg-accent-gold/[0.03] border-l-2 border-accent-gold p-4 rounded-r-xl">
-                                                        <span className="block text-[9px] font-serif font-bold text-accent-gold uppercase tracking-widest mb-1.5">
-                                                            {lang === "am"
-                                                                ? "የነገረ መለኮት አስተምህሮ"
-                                                                : "Theological Doctrine"}
-                                                        </span>
-                                                        {renderWithDropCap(
-                                                            msg.parsedCommentary
-                                                                .core,
-                                                        )}
-                                                    </div>
-                                                )}
-
-                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    {msg.parsedCommentary
-                                                        .context && (
-                                                        <div className="bg-accent-crimson/[0.01] border-l-2 border-accent-crimson/50 p-4 rounded-r-xl">
-                                                            <span className="block text-[9px] font-serif font-bold text-accent-crimson uppercase tracking-widest mb-1.5">
-                                                                {lang === "am"
-                                                                    ? "ሥርዓተ ቅዳሴያዊ ትስስር"
-                                                                    : "Liturgical Integration"}
-                                                            </span>
-                                                            <p className="text-stone-700 text-xs leading-relaxed font-light">
-                                                                {
-                                                                    msg
-                                                                        .parsedCommentary
-                                                                        .context
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                    )}
-
-                                                    {msg.parsedCommentary
-                                                        .symbolism && (
-                                                        <div className="bg-accent-blue/[0.01] border-l-2 border-accent-blue/50 p-4 rounded-r-xl">
-                                                            <span className="block text-[9px] font-serif font-bold text-accent-blue uppercase tracking-widest mb-1.5">
-                                                                {lang === "am"
-                                                                    ? "ምስጢራተ ቤተ ክርስቲያንና ምልክቶች"
-                                                                    : "Mystagogy & Symbolism"}
-                                                            </span>
-                                                            <div className="text-stone-700 text-xs leading-relaxed font-light whitespace-pre-line">
-                                                                {
-                                                                    msg
-                                                                        .parsedCommentary
-                                                                        .symbolism
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-
-                                                {/* Card toolbar */}
-                                                <div className="flex gap-2 justify-end mt-2 pt-2 border-t border-accent-gold/10">
-                                                    <button
-                                                        onClick={() =>
-                                                            handleCopy(
-                                                                msg.content,
-                                                            )
-                                                        }
-                                                        className="flex items-center gap-1 px-2.5 py-1 bg-transparent border border-accent-gold/20 hover:border-accent-gold/45 text-text-ink hover:text-accent-gold text-[10px] font-semibold rounded-lg transition-colors cursor-pointer"
-                                                    >
-                                                        <Clipboard className="h-3 w-3" />
-                                                        {lang === "am"
-                                                            ? "ቅዳ"
-                                                            : "Copy"}
-                                                    </button>
-                                                    <button
-                                                        onClick={handleSave}
-                                                        className="flex items-center gap-1 px-2.5 py-1 bg-accent-gold hover:bg-accent-gold/90 text-white text-[10px] font-semibold rounded-lg transition-colors cursor-pointer"
-                                                    >
-                                                        <Bookmark className="h-3 w-3" />
-                                                        {lang === "am"
-                                                            ? "ማስታወሻ አስቀምጥ"
-                                                            : "Save Note"}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            /* Render standard follow-up conversation turns (preserves whitespaces/paragraphs) */
-                                            <div className="whitespace-pre-line font-sans text-xs md:text-sm text-stone-750 leading-relaxed font-light">
-                                                {msg.content}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            );
-                        })}
-
-                        {/* Chat follow-up loading spinner */}
-                        {loading && messages.length > 0 && (
-                            <div className="flex flex-col items-start animate-pulse">
-                                <span className="text-[8px] font-bold text-stone-400 uppercase tracking-widest mb-1 px-1">
-                                    {lang === "am"
-                                        ? "የኦርቶዶክስ AI"
-                                        : "Learn Orthodox AI"}
-                                </span>
-                                <div className="bg-stone-50 border border-stone-200 rounded-xl p-3.5 text-xs text-stone-550 italic font-light flex items-center gap-2">
-                                    <div className="animate-spin rounded-full h-3 w-3 border border-accent-gold border-t-transparent"></div>
-                                    {lang === "am"
-                                        ? "መልስ በመጻፍ ላይ..."
-                                        : "Formulating answer..."}
-                                </div>
-                            </div>
-                        )}
-
-                        <div ref={chatEndRef} />
+                    <div className="text-[9px] ui-label font-bold text-accent-rose uppercase tracking-widest mb-1.5">
+                        {lang === "am"
+                            ? `ተናጋሪ፦ ${ROLE_LABELS_AM[unit.role] || unit.role}`
+                            : `Spoken by: ${ROLE_LABELS_EN[unit.role] || unit.role}`}
                     </div>
+                    {unit.textGez && (
+                        <p
+                            className="text-lg text-accent-indigo font-serif font-normal Ethiopic-font mb-2 leading-relaxed"
+                            style={{ fontFamily: "var(--font-noto-serif-ethiopic), serif" }}
+                        >
+                            {unit.textGez}
+                        </p>
+                    )}
+                    {unit.textAm && (
+                        <p
+                            className="text-xs text-stone-750 font-medium Ethiopic-font mb-2 leading-relaxed"
+                            style={{ fontFamily: "var(--font-noto-serif-ethiopic), serif" }}
+                        >
+                            {unit.textAm}
+                        </p>
+                    )}
+                    <p className="text-stone-600 text-xs italic font-light leading-relaxed font-serif">
+                        &ldquo;{unit.textEn}&rdquo;
+                    </p>
+                </div>
 
-                    {/* Chat Input Area (Claude UI replication) */}
-                    {messages.length > 0 && (
-                        <form onSubmit={handleSend} className="mt-2">
-                            <div className="border border-accent-gold/25 focus-within:border-accent-gold/60 focus-within:ring-1 focus-within:ring-accent-gold/20 rounded-xl bg-white p-2.5 transition-all">
-                                {/* Textarea */}
-                                <textarea
-                                    value={inputValue}
-                                    onChange={(e) =>
-                                        setInputValue(e.target.value)
-                                    }
-                                    placeholder={
-                                        lang === "am"
-                                            ? "ስለ ቅዳሴው ክፍል ተጨማሪ ጥያቄ ይጠይቁ..."
-                                            : "Ask a follow-up question on this liturgical passage..."
-                                    }
-                                    rows={2}
-                                    disabled={loading}
-                                    className="w-full resize-none bg-transparent border-0 outline-none text-xs md:text-sm text-text-ink placeholder-stone-400 focus:ring-0 p-1.5"
-                                    onKeyDown={(e) => {
-                                        // Send on Enter (unless shift is pressed)
-                                        if (e.key === "Enter" && !e.shiftKey) {
-                                            e.preventDefault();
-                                            handleSend(e);
-                                        }
-                                    }}
-                                />
+                {/* Model/Provider configuration dropdowns (visible if not loaded or during reset) */}
+                {messages.length === 0 && !loading && (
+                    <div className="grid grid-cols-2 gap-3 mb-5">
+                        <div>
+                            <label className="block text-[9px] ui-label font-bold text-stone-500 uppercase tracking-widest mb-1">
+                                {lang === "am" ? "አቅራቢ" : "Provider"}
+                            </label>
+                            <select
+                                value={provider}
+                                onChange={(e) => {
+                                    const p = e.target.value;
+                                    setProvider(p);
+                                    const found = PROVIDERS.find((prov) => prov.id === p);
+                                    if (found) setModel(found.models[0]);
+                                }}
+                                className="w-full bg-bg-parchment border border-accent-gold/25 text-text-ink rounded-none px-2.5 py-1.5 text-xs focus:border-accent-gold outline-none"
+                            >
+                                {PROVIDERS.map((p) => (
+                                    <option key={p.id} value={p.id}>{p.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-[9px] ui-label font-bold text-stone-500 uppercase tracking-widest mb-1">
+                                {lang === "am" ? "ሞዴል" : "Model"}
+                            </label>
+                            <select
+                                value={model}
+                                onChange={(e) => setModel(e.target.value)}
+                                className="w-full bg-bg-parchment border border-accent-gold/25 text-text-ink rounded-none px-2.5 py-1.5 text-xs focus:border-accent-gold outline-none"
+                            >
+                                {PROVIDERS.find((p) => p.id === provider)?.models.map((m) => (
+                                    <option key={m} value={m}>{m}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                )}
 
-                                {/* Toolbar inside input box */}
-                                <div className="flex items-center justify-between pt-1 border-t border-stone-100 mt-1.5">
-                                    {/* Left info badge */}
-                                    <span className="text-[9px] text-stone-400 font-medium uppercase tracking-wider pl-1.5">
-                                        {lang === "am"
-                                            ? `መልእክት ለ፦ ${activeModelName}`
-                                            : `Typing to: ${activeModelName}`}
-                                    </span>
+                {/* Active model badge if chatting */}
+                {messages.length > 0 && (
+                    <div className="px-3 py-2 border border-accent-gold/15 bg-bg-alabaster/40 text-[9px] ui-label text-stone-600 mb-4 flex items-center justify-between">
+                        <span>
+                            {lang === "am" ? "አገልግሎት ላይ ያለ ሞዴል፦" : "Active Model:"}{" "}
+                            <strong>{activeModelName}</strong>
+                        </span>
+                        <button
+                            onClick={() => {
+                                setMessages([]);
+                                setInputValue("");
+                            }}
+                            className="text-accent-rose hover:underline font-bold tracking-wider uppercase cursor-pointer"
+                        >
+                            {lang === "am" ? "ቻቱን አዲስ ጀምር" : "Reset Chat"}
+                        </button>
+                    </div>
+                )}
 
-                                    {/* Send Button */}
-                                    <button
-                                        type="submit"
-                                        disabled={!inputValue.trim() || loading}
-                                        className="p-1.5 bg-accent-gold disabled:bg-stone-200 text-white disabled:text-stone-400 rounded-lg transition-all cursor-pointer active:scale-95 flex items-center justify-center shadow-sm"
-                                    >
-                                        <Send className="h-3.5 w-3.5" />
-                                    </button>
+                {/* Trigger Initial Commentary */}
+                {messages.length === 0 && (
+                    <button
+                        onClick={explain}
+                        disabled={loading}
+                        className="w-full py-3 px-4 bg-accent-gold hover:bg-accent-gold/90 text-white text-[10px] ui-label font-bold tracking-wider uppercase transition-all disabled:opacity-50 cursor-pointer shadow-none"
+                    >
+                        {loading
+                            ? (lang === "am" ? "የነገረ መለኮት ማብራሪያውን በመፈለግ ላይ..." : "Consulting theological library...")
+                            : (lang === "am" ? "ማብራሪያ ጠይቅ" : "Consult Commentary")}
+                    </button>
+                )}
+
+                {/* Messages Space */}
+                <div className="flex-grow overflow-y-auto pr-1 space-y-4 mb-4 mt-2 scrollbar-none max-h-[60vh]">
+                    {messages.length === 0 && !loading && (
+                        <div className="h-full flex flex-col items-center justify-center text-center py-10">
+                            <Heart className="h-8 w-8 text-accent-gold/30 mb-3" />
+                            <p className="text-[11px] text-stone-550 font-light font-serif max-w-xs leading-relaxed">
+                                {lang === "am"
+                                    ? 'ስለ ጥቅሱ ዝርዝር ማብራሪያ ለማግኘት "ማብራሪያ ጠይቅ" የሚለውን ይጫኑ።'
+                                    : 'Click "Consult Commentary" to analyze the selected verse and open patristic reflections.'}
+                            </p>
+                        </div>
+                    )}
+
+                    {loading && messages.length === 0 && (
+                        <div className="h-full flex flex-col items-center justify-center py-10">
+                            <div className="animate-spin rounded-full h-7 w-7 border-2 border-accent-gold border-t-transparent mb-3"></div>
+                            <p className="text-[10px] text-accent-gold ui-label font-bold tracking-wider uppercase">
+                                {lang === "am" ? "ማብራሪያ በመጻፍ ላይ..." : "Formulating commentary..."}
+                            </p>
+                        </div>
+                    )}
+
+                    {messages.map((msg, index) => {
+                        const isUser = msg.role === "user";
+                        return (
+                            <div key={index} className={`flex flex-col ${isUser ? "items-end" : "items-start"} animate-in fade-in duration-300`}>
+                                <span className="text-[8px] ui-label font-bold text-stone-400 uppercase tracking-widest mb-1 px-1">
+                                    {isUser ? (lang === "am" ? "እርስዎ" : "You") : (lang === "am" ? "AI ማብራሪያ" : "AI Commentary")}
+                                </span>
+                                <div className={`w-full p-4 border border-accent-gold/15 bg-bg-alabaster/40 ${isUser ? "border-accent-gold/25" : ""}`}>
+                                    {msg.isError ? (
+                                        <div className="text-accent-rose text-xs space-y-2">
+                                            <div className="flex items-center gap-1 font-bold"><AlertTriangle className="w-3.5 h-3.5" /> ERROR</div>
+                                            <p>{msg.content}</p>
+                                            <pre className="text-[9px] font-mono bg-stone-900 text-stone-200 p-2 overflow-x-auto">{msg.errorDetails}</pre>
+                                        </div>
+                                    ) : msg.parsedCommentary ? (
+                                        <div className="space-y-4">
+                                            {msg.parsedCommentary.core && (
+                                                <div className="border-l-2 border-accent-gold pl-3 py-1">
+                                                    <span className="block text-[8px] ui-label font-bold text-accent-gold uppercase tracking-widest mb-1">
+                                                        {lang === "am" ? "የነገረ መለኮት አስተምህሮ" : "Theological Doctrine"}
+                                                    </span>
+                                                    {renderWithDropCap(msg.parsedCommentary.core)}
+                                                </div>
+                                            )}
+                                            {msg.parsedCommentary.context && (
+                                                <div className="border-l-2 border-accent-rose pl-3 py-1">
+                                                    <span className="block text-[8px] ui-label font-bold text-accent-rose uppercase tracking-widest mb-1">
+                                                        {lang === "am" ? "ሥርዓተ ቅዳሴያዊ ትስስር" : "Liturgical Integration"}
+                                                    </span>
+                                                    <p className="text-stone-700 text-xs leading-relaxed font-light font-serif">
+                                                        {msg.parsedCommentary.context}
+                                                    </p>
+                                                </div>
+                                            )}
+                                            {msg.parsedCommentary.symbolism && (
+                                                <div className="border-l-2 border-accent-indigo pl-3 py-1">
+                                                    <span className="block text-[8px] ui-label font-bold text-accent-indigo uppercase tracking-widest mb-1">
+                                                        {lang === "am" ? "ምስጢራትና ምልክቶች" : "Mystagogy & Symbolism"}
+                                                    </span>
+                                                    <div className="text-stone-700 text-xs leading-relaxed font-light font-serif whitespace-pre-line">
+                                                        {msg.parsedCommentary.symbolism}
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <div className="flex gap-2 justify-end pt-2 border-t border-accent-gold/10">
+                                                <button
+                                                    onClick={() => handleCopy(msg.content)}
+                                                    className="flex items-center gap-1 px-2 py-1 border border-accent-gold/25 hover:border-accent-gold text-text-ink hover:text-accent-gold text-[9px] ui-label font-bold uppercase transition-colors cursor-pointer"
+                                                >
+                                                    <Clipboard className="h-3 w-3" />
+                                                    {lang === "am" ? "ቅዳ" : "Copy"}
+                                                </button>
+                                                <button
+                                                    onClick={handleSave}
+                                                    className="flex items-center gap-1 px-2 py-1 bg-accent-gold hover:bg-accent-gold/90 text-white text-[9px] ui-label font-bold uppercase transition-colors cursor-pointer"
+                                                >
+                                                    <Bookmark className="h-3 w-3" />
+                                                    {lang === "am" ? "አስቀምጥ" : "Save"}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="whitespace-pre-line font-serif text-xs leading-relaxed text-stone-700 font-light">
+                                            {msg.content}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
+                        );
+                    })}
 
-                            {/* Disclaimer */}
-                            <p className="text-[8px] text-stone-400 text-center mt-1.5 italic font-light">
-                                {lang === "am"
-                                    ? "ማብራሪያዎች ስህተት ሊኖራቸው ስለሚችል ከሊቃውንትና ከቅዱሳት መጻሕፍት ጋር ያነጻጽሩ።"
-                                    : "Learn Orthodox AI commentary can make mistakes. Please cross-reference with patristic guides."}
-                            </p>
-                        </form>
+                    {loading && messages.length > 0 && (
+                        <div className="flex flex-col items-start animate-pulse">
+                            <span className="text-[8px] ui-label font-bold text-stone-400 uppercase tracking-widest mb-1 px-1">
+                                {lang === "am" ? "የኦርቶዶክስ AI" : "Learn Orthodox AI"}
+                            </span>
+                            <div className="border border-accent-gold/15 bg-bg-alabaster/40 p-3 text-xs text-stone-550 italic font-light flex items-center gap-2">
+                                <div className="animate-spin rounded-full h-3 w-3 border border-accent-gold border-t-transparent"></div>
+                                <span>...</span>
+                            </div>
+                        </div>
                     )}
+                    <div ref={chatEndRef} />
                 </div>
             </div>
+
+            {/* Chat Input Form */}
+            {messages.length > 0 && (
+                <form onSubmit={handleSend} className="mt-auto border-t border-accent-gold/15 pt-3">
+                    <div className="border border-accent-gold/25 focus-within:border-accent-gold/60 rounded-none bg-white p-2 transition-all">
+                        <textarea
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            placeholder={lang === "am" ? "ተጨማሪ ጥያቄ ይጠይቁ..." : "Ask a follow-up question..."}
+                            rows={2}
+                            disabled={loading}
+                            className="w-full resize-none bg-transparent border-0 outline-none text-xs text-text-ink placeholder-stone-400 p-1 font-serif"
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSend(e);
+                                }
+                            }}
+                        />
+                        <div className="flex items-center justify-between pt-1 border-t border-stone-100 mt-1">
+                            <span className="text-[8px] ui-label text-stone-400 font-bold uppercase tracking-wider pl-1">
+                                {lang === "am" ? `መልእክት ለ፦ ${activeModelName}` : `Target: ${activeModelName}`}
+                            </span>
+                            <button
+                                type="submit"
+                                disabled={!inputValue.trim() || loading}
+                                className="p-1 bg-accent-gold disabled:bg-stone-200 text-white disabled:text-stone-400 transition-all cursor-pointer flex items-center justify-center"
+                            >
+                                <Send className="h-3 w-3" />
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            )}
         </div>
     );
 }
